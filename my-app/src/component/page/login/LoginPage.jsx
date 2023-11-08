@@ -5,6 +5,7 @@ import { loginUser } from '../../../store/store';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
+import Button from "./ui/Button";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -108,7 +109,7 @@ function LoginPage(){
           onChange={(e)=> setPassword(e.target.value)}
           placeholder="비밀번호를 입력하세요"
         />
-        <LoginButton type="submit">로그인</LoginButton>
+        <Button type="submit">로그인</Button>
       </LoginForm>
       <p>
         계정이 없으신가요? <button onClick={()=>{navigate("/signup")}}>회원가입하기</button>
