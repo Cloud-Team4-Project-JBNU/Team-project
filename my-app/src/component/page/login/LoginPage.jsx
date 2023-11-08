@@ -43,12 +43,14 @@ function LoginPage(){
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
 
+
   useEffect(()=> {
     if (msg){
       setTimeout(()=>{
         setMsg("");
         setLoading(false);
       }, 1500)
+      console.log("깃허브입문");
     }
   }, [msg])
  
