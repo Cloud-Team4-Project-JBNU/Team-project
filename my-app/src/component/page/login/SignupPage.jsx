@@ -64,6 +64,7 @@ function SignupPage() {
       })
       .catch(error => {
         // 에러 처리 로직
+        console.log("myname");
       });
   };
 
