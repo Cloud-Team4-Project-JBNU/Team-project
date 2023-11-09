@@ -101,6 +101,7 @@ function LoginPage(){
         계정이 없으신가요? <button onClick={()=>{navigate("/signup")}}>회원가입하기</button>
       </p>
       {msg}
+      <button onClick={()=>{navigate("/util")}}>temporary</button>
     </LoginContainer>
   );
 }
