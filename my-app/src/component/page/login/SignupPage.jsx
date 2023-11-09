@@ -46,25 +46,46 @@ function SignupPage() {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [gender, setGender] = useState('');
 
-  const body = { name, email, password, birthdate, phoneNumber, gender };
+  const checkEmailExists = async (email) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        // 서버에 이메일 중복 검사 요청을 보낸다고 가정
+        // 항상 false를 반환하여 이메일이 중복되지 않았다고 가정
+        resolve(false);
+      }, 1000);
+    });
+  }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // 입력값 검증 로직
+    //필드 공백 여부 확인
+    if (!name || !email || !password || !confirmPassword || !birthdate || !phoneNumber || !gender){
+      alert('모든 정보를 다 입력해주세요');
+      return;
+    }
+    //비밀번호와 비밀번호 확인이 일치하는지 확인
     if (password !== confirmPassword) {
       alert('비밀번호가 일치하지 않습니다.');
       return;
     }
 
+    const emailExists = await checkEmailExists(email);
+    if (emailExists){
+      alert('이미 등록된 이메일입니다. 다른 이메일을 사용해 주세요.');
+      return;
+    }
+
     // 서버에 회원가입 요청을 보내는 로직
+    const body = { name, email, password, birthdate, phoneNumber, gender }
     axios.post('/signup_endpoint', body)
       .then(response => {
-        // 성공 처리 로직
+        // 성공 처리 로직 구현하기
+        navigate('/');
       })
       .catch(error => {
         // 에러 처리 로직
-        console.log("myname");
+        console.error(error);
+        alert("회원가입 중 문제가 발생했습니다.")
       });
   };
 
@@ -104,14 +125,22 @@ function SignupPage() {
         <Infotitle>생년월일</Infotitle>
         <Input
           type="text"
+          value={birthdate}
+          onChange={(e) => setBirthdate(e.target.value)}
+          placeholder="예시 : 2000-07-13"
+        />
+        <Infotitle>휴대폰 번호</Infotitle>
+        <Input
+          type="text"
           value={phoneNumber}
           onChange={(e)=>{setPhoneNumber(e.target.value)}}
           placeholder="휴대전화번호를 입력하세요"
         />
         <Infotitle>성별</Infotitle>
-        <GenderSelect>
-          <GenderOption>남자</GenderOption>
-          <GenderOption>여자</GenderOption>
+        <GenderSelect value={gender} onChange={(e) => setGender(e.target.value)}>
+          <GenderOption>성별을 선택해주세요</GenderOption>
+          <GenderOption value="남자">남자</GenderOption>
+          <GenderOption value="여자">여자</GenderOption>
         </GenderSelect>
         <Button type="submit">회원가입</Button>
       </SignupForm>
