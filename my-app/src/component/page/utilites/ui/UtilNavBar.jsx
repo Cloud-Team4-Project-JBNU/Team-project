@@ -30,7 +30,7 @@ function UtilNavBar(props) {
           <Nav>
             <Nav.Link href="#deets">마이페이지</Nav.Link>
             <Nav.Link>
-              <img src="./images/logout.png" alt="logout"
+              <img src="images/logout.png" alt="logout"
                    onClick={()=> {}}
               />
             </Nav.Link>
