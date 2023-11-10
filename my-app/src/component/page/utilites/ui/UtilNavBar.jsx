@@ -13,8 +13,8 @@ function UtilNavBar(props) {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <Nav.Link href="#features">서비스 소개</Nav.Link>
+            <Nav.Link href="#pricing">정보 입력</Nav.Link>
             <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
@@ -28,9 +28,11 @@ function UtilNavBar(props) {
             </NavDropdown>
           </Nav>
           <Nav>
-            <Nav.Link href="#deets">내 정보 확인(이모티콘)</Nav.Link>
-            <Nav.Link eventKey={2} href="#memes">
-              로그아웃하기
+            <Nav.Link href="#deets">마이페이지</Nav.Link>
+            <Nav.Link>
+              <img src="./images/logout.png" alt="logout"
+                   onClick={()=> {}}
+              />
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
