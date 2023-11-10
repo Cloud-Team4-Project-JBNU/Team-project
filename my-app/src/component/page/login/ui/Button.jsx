@@ -11,8 +11,8 @@ const SubmitButton = styled.button`
   margin-top: 20px;
 `;
 
-function Button({type, children}){
-  
+function Button(props){
+  const {type, children} = props;
   return <SubmitButton type={type}>{children}</SubmitButton>
 }
 

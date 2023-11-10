@@ -1,8 +1,11 @@
+/*eslint-disable*/
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import styled from 'styled-components';
+import NavBarIcon from './NavBarIcon';
 
 
 function UtilNavBar(props) {
@@ -28,11 +31,18 @@ function UtilNavBar(props) {
             </NavDropdown>
           </Nav>
           <Nav>
-            <Nav.Link href="#deets">마이페이지</Nav.Link>
+            <Nav.Link href="#deets">
+              <NavBarIcon src="../../../../images/userInfo.png"
+                    onClick={()=>{}}
+              />
+              {/* <a href="https://www.flaticon.com/kr/free-icons/" title="사람 아이콘">사람 아이콘  제작자: Febrian Hidayat - Flaticon</a> */}
+            </Nav.Link>
             <Nav.Link>
-              <img src="images/logout.png" alt="logout"
+              <NavBarIcon src="../../../../images/logout.png" alt="logout"
                    onClick={()=> {}}
               />
+              
+              {/* <a href="https://www.flaticon.com/kr/free-icons/" title="떠나다 아이콘">떠나다 아이콘  제작자: Creatype - Flaticon</a> */}
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
