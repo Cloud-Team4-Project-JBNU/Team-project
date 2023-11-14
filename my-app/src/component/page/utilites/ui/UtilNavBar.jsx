@@ -17,13 +17,13 @@ function UtilNavBar(props) {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="#features">서비스 소개</Nav.Link>
-            <Nav.Link href="#pricing">정보 입력</Nav.Link>
+            {/* <Nav.Link href="#pricing">정보 입력</Nav.Link> */}
             <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.1">Long</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
-                Another action
+                Shorts
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Community</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4">
                 Separated link

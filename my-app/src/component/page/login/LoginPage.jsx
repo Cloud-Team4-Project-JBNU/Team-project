@@ -26,14 +26,9 @@ const Input = styled.input`
   padding: 10px;
 `;
 
-const LoginButton = styled.button`
-  background-color: green;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  margin-top: 20px;
-`;
+const Logo = styled.img`
+  
+`
 
 function LoginPage(){
   let user = useSelector((state) => state.user)
@@ -80,7 +75,7 @@ function LoginPage(){
   
   return (
     <LoginContainer>
-      <img src="https://res.heraldm.com/content/image/2014/03/09/20140309000223_0.jpg" alt="loginImage"/>
+      <img src="../../images/youtube.png" alt="loginImage"/>
       <h1>로그인하기</h1>
       <LoginForm onSubmit={handleLogin}>
         <Input 
