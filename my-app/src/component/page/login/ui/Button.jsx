@@ -2,18 +2,19 @@
 import styled from "styled-components";
 import React from 'react';
 
-const SubmitButton = styled.button`
-  background-color: green;
+const LoginButton = styled.button`
+  background-color: red;
   color: white;
   padding: 10px 20px;
   border: none;
   cursor: pointer;
-  margin-top: 20px;
+  margin: 20px;
+  font-size: 25px;
 `;
 
 function Button(props){
   const {type, children} = props;
-  return <SubmitButton type={type}>{children}</SubmitButton>
+  return <LoginButton type={type}>{children}</LoginButton>
 }
 
 export default Button;

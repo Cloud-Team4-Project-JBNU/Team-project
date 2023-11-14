@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import Button from "./ui/Button";
 import UserMenu from "../utilites/UserMenu";
+import A from "./ui/A";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -26,8 +27,8 @@ const Input = styled.input`
   padding: 10px;
 `;
 
-const Logo = styled.img`
-  
+const LoginTitle = styled.h1`
+  margin: 10px;
 `
 
 function LoginPage(){
@@ -76,7 +77,7 @@ function LoginPage(){
   return (
     <LoginContainer>
       <img src="../../images/youtube.png" alt="loginImage"/>
-      <h1>로그인하기</h1>
+      <LoginTitle>로그인하기</LoginTitle>
       <LoginForm onSubmit={handleLogin}>
         <Input 
           type="text"
@@ -93,7 +94,7 @@ function LoginPage(){
         <Button type="submit">로그인</Button>
       </LoginForm >
       <p>
-        계정이 없으신가요? <button onClick={()=>{navigate("/signup")}}>회원가입하기</button>
+        계정이 없으신가요? <A href="/signup" content="회원가입하기"></A>
       </p>
       {msg}
       <button onClick={()=>{navigate("/util")}}>temporary</button>

@@ -7,13 +7,17 @@ import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import Input from "./ui/Input";
 import Button from "./ui/Button";
+import A from "./ui/A";
+import DatePickerUI from "./ui/DatePickerUI";
+
 
 const SignupContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; 
+  min-height: 100vh;
+  padding: 0 20px;
 `;
 
 const SignupForm = styled.form`
@@ -42,9 +46,11 @@ function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [birthdate, setBirthdate] = useState('')
+  const [birthdate, setBirthdate] = useState(null)
   const [phoneNumber, setPhoneNumber] = useState('')
   const [gender, setGender] = useState('');
+  const [startDate, setStartDate] = useState(new Date());
+
 
   const checkEmailExists = async (email) => {
     return new Promise((resolve) => {
@@ -91,6 +97,7 @@ function SignupPage() {
 
   return (
     <SignupContainer>
+      <img src="../../images/youtube.png" alt="signupImage"/>
       <h1>회원가입하기</h1>
       <SignupForm onSubmit={handleSubmit}>
         
@@ -123,12 +130,7 @@ function SignupPage() {
           placeholder="비밀번호 확인"
         />
         <Infotitle>생년월일</Infotitle>
-        <Input
-          type="text"
-          value={birthdate}
-          onChange={(e) => setBirthdate(e.target.value)}
-          placeholder="예시 : 2000-07-13"
-        />
+        <DatePickerUI selected={startDate} onChange={(date)=>setStartDate(date)}/>
         <Infotitle>휴대폰 번호</Infotitle>
         <Input
           type="text"
@@ -142,10 +144,11 @@ function SignupPage() {
           <GenderOption value="남자">남자</GenderOption>
           <GenderOption value="여자">여자</GenderOption>
         </GenderSelect>
+
         <Button type="submit">회원가입</Button>
       </SignupForm>
       <p>
-        이미 계정이 있으신가요? <button onClick={()=>{navigate("/")}}>로그인하기</button>
+        이미 계정이 있으신가요? <A href="/" content="로그인하기" />
       </p>
     </SignupContainer>
   );
