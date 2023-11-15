@@ -11,7 +11,6 @@ const StyledInput = styled.input`
 `;
 
 function Input(props){
-  console.log("Input렌더링 시작");
   const { type, value, onChange, placeholder } = props;
   return <StyledInput type={type} value={value} onChange={onChange} placeholder={placeholder}/>
 }

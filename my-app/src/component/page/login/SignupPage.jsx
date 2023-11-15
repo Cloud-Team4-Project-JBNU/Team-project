@@ -46,12 +46,10 @@ function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [birthdate, setBirthdate] = useState(null)
+  const [startDate, setStartDate] = useState(new Date());
   const [phoneNumber, setPhoneNumber] = useState('')
   const [gender, setGender] = useState('');
-  const [startDate, setStartDate] = useState(new Date());
-
-
+  
   const checkEmailExists = async (email) => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -64,8 +62,9 @@ function SignupPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(startDate);
     //필드 공백 여부 확인
-    if (!name || !email || !password || !confirmPassword || !birthdate || !phoneNumber || !gender){
+    if (!name || !email || !password || !confirmPassword || !startDate || !phoneNumber || !gender){
       alert('모든 정보를 다 입력해주세요');
       return;
     }
@@ -74,15 +73,22 @@ function SignupPage() {
       alert('비밀번호가 일치하지 않습니다.');
       return;
     }
-
+    //등록된 이메일 여부 확인
     const emailExists = await checkEmailExists(email);
     if (emailExists){
       alert('이미 등록된 이메일입니다. 다른 이메일을 사용해 주세요.');
       return;
     }
+    //이름 유효성 검사
+    const nameRegex = /^[a-zA-Z가-힣]/;
+    if (!nameRegex.test(name)){
+      alert('이름은 영문자나 한글로 시작해야합니다.');
+      return;
+    }
+
 
     // 서버에 회원가입 요청을 보내는 로직
-    const body = { name, email, password, birthdate, phoneNumber, gender }
+    const body = { name, email, password, startDate, phoneNumber, gender }
     axios.post('/signup_endpoint', body)
       .then(response => {
         // 성공 처리 로직 구현하기
@@ -130,7 +136,10 @@ function SignupPage() {
           placeholder="비밀번호 확인"
         />
         <Infotitle>생년월일</Infotitle>
-        <DatePickerUI selected={startDate} onChange={(date)=>setStartDate(date)}/>
+        <DatePickerUI 
+          selected={startDate}
+          onChange={(date)=>setStartDate(date)}
+        />
         <Infotitle>휴대폰 번호</Infotitle>
         <Input
           type="text"

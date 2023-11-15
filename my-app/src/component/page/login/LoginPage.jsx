@@ -6,7 +6,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import Button from "./ui/Button";
-import UserMenu from "../utilites/UserMenu";
 import A from "./ui/A";
 
 const LoginContainer = styled.div`
@@ -80,7 +79,7 @@ function LoginPage(){
       <LoginTitle>로그인하기</LoginTitle>
       <LoginForm onSubmit={handleLogin}>
         <Input 
-          type="text"
+          type="email"
           value={id}
           onChange={(e)=>setId(e.target.value)}
           placeholder="아이디를 입력하세요" 
