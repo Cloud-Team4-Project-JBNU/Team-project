@@ -9,7 +9,7 @@ import Input from "./ui/Input";
 import Button from "./ui/Button";
 import A from "./ui/A";
 import DatePickerUI from "./ui/DatePickerUI";
-
+import { ko } from 'date-fns/locale'
 
 const SignupContainer = styled.div`
   display: flex;
@@ -139,6 +139,8 @@ function SignupPage() {
         <DatePickerUI 
           selected={startDate}
           onChange={(date)=>setStartDate(date)}
+          dateFormat="yyyy-MM-dd"
+          locale={ko}
         />
         <Infotitle>휴대폰 번호</Infotitle>
         <Input
