@@ -9,7 +9,7 @@ import Input from "./ui/Input";
 import Button from "./ui/Button";
 import A from "./ui/A";
 import DatePickerUI from "./ui/DatePickerUI";
-import { ko } from 'date-fns/locale'
+
 
 const SignupContainer = styled.div`
   display: flex;
@@ -31,8 +31,11 @@ const Infotitle = styled.div`
 `
 
 const GenderSelect = styled.select`
-  font-size: 15px;
+  font-size: 16px;
   font-family: 'Noto-Sans KR', 'sans-serif';
+  padding: 12px;
+  border: 1px solid black;
+  border-radius: 4px;
 `
 
 const GenderOption = styled.option`
@@ -62,7 +65,9 @@ function SignupPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(startDate);
+    // console.log(startDate, typeof startDate);
+    // const birthday = String(startDate).split(" ");
+    // console.log(birthday); startdate받아오는거 성공했으니 하면될듯
     //필드 공백 여부 확인
     if (!name || !email || !password || !confirmPassword || !startDate || !phoneNumber || !gender){
       alert('모든 정보를 다 입력해주세요');
@@ -85,7 +90,12 @@ function SignupPage() {
       alert('이름은 영문자나 한글로 시작해야합니다.');
       return;
     }
-
+    //핸드폰 번호 유효성 검사
+    const phoneRegex = /^(01[016789]{1})[0-9]{3,4}[0-9]{4}$/;
+    if (!phoneRegex.test(phoneNumber)){
+      alert('핸드폰 번호를 입력해주세요 예시 : 010-1010-1010');
+      return;
+    }
 
     // 서버에 회원가입 요청을 보내는 로직
     const body = { name, email, password, startDate, phoneNumber, gender }
@@ -105,8 +115,7 @@ function SignupPage() {
     <SignupContainer>
       <img src="../../images/youtube.png" alt="signupImage"/>
       <h1>회원가입하기</h1>
-      <SignupForm onSubmit={handleSubmit}>
-        
+      <SignupForm onSubmit={handleSubmit}>       
         <Infotitle>이름</Infotitle>
         <Input
           type="text"
@@ -135,19 +144,17 @@ function SignupPage() {
           onChange={(e) => setConfirmPassword(e.target.value)}
           placeholder="비밀번호 확인"
         />
-        <Infotitle>생년월일</Infotitle>
-        <DatePickerUI 
-          selected={startDate}
-          onChange={(date)=>setStartDate(date)}
-          dateFormat="yyyy-MM-dd"
-          locale={ko}
-        />
         <Infotitle>휴대폰 번호</Infotitle>
         <Input
           type="text"
           value={phoneNumber}
           onChange={(e)=>{setPhoneNumber(e.target.value)}}
           placeholder="휴대전화번호를 입력하세요"
+        />
+        <Infotitle>생년월일</Infotitle>
+        <DatePickerUI 
+          selected={startDate}
+          onChange={(date)=>setStartDate(date)}
         />
         <Infotitle>성별</Infotitle>
         <GenderSelect value={gender} onChange={(e) => setGender(e.target.value)}>
