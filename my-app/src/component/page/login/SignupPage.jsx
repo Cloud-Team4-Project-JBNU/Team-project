@@ -67,7 +67,7 @@ function SignupPage() {
     e.preventDefault();
     // console.log(startDate, typeof startDate);
     // const birthday = String(startDate).split(" ");
-    // console.log(birthday); startdate받아오는거 성공했으니 하면될듯
+    // console.log(birthday); // 3: year 2: day 1: month 0: 요일
     //필드 공백 여부 확인
     if (!name || !email || !password || !confirmPassword || !startDate || !phoneNumber || !gender){
       alert('모든 정보를 다 입력해주세요');
@@ -91,7 +91,7 @@ function SignupPage() {
       return;
     }
     //핸드폰 번호 유효성 검사
-    const phoneRegex = /^(01[016789]{1})[0-9]{3,4}[0-9]{4}$/;
+    const phoneRegex = /01[016789]-[^0][0-9]{2,3}-[0-9]{3,4}/;
     if (!phoneRegex.test(phoneNumber)){
       alert('핸드폰 번호를 입력해주세요 예시 : 010-1010-1010');
       return;
