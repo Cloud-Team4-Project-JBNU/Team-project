@@ -5,7 +5,6 @@ import LoginPage from './component/page/login/LoginPage';
 import { Routes, Route } from 'react-router-dom';
 import SignupPage from './component/page/login/SignupPage';
 import UserMenu from './component/page/utilites/UserMenu';
-import UtilNavBar from './component/page/utilites/ui/UtilNavBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {

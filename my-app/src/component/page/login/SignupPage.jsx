@@ -10,6 +10,10 @@ import Button from "./ui/Button";
 import A from "./ui/A";
 import DatePickerUI from "./ui/DatePickerUI";
 
+const LogoImage = styled.img`
+  width: auto;
+  height: 200px;
+`
 
 const SignupContainer = styled.div`
   display: flex;
@@ -113,7 +117,7 @@ function SignupPage() {
 
   return (
     <SignupContainer>
-      <img src="../../images/youtube.png" alt="signupImage"/>
+      <LogoImage src="../../images/youtube.png" alt="signupImage"/>
       <h1>회원가입하기</h1>
       <SignupForm onSubmit={handleSubmit}>       
         <Infotitle>이름</Infotitle>

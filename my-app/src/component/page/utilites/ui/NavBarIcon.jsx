@@ -3,10 +3,11 @@ import styled from "styled-components";
 import React from 'react';
 
 const NavIcon = styled.img`
-  height: 20px; 
+  height: 30px; 
   width: auto; 
   cursor: pointer; 
   padding: 0 10px; 
+  
 `;
 
 function NavBarIcon(props){

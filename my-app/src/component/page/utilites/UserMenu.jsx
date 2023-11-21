@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
-import UtilNavBar from './ui/UtilNavBar';
+import SideBar from './ui/SideBar';
 
 function UserMenu(){
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ function UserMenu(){
 
   return (
     <div>
-      <UtilNavBar/>
+      <SideBar/>
       기능구현 어떻게 할지 정해봐야함.
     </div>
   )

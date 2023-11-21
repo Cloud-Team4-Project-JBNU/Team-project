@@ -8,6 +8,11 @@ import { useNavigate } from "react-router-dom";
 import Button from "./ui/Button";
 import A from "./ui/A";
 
+const LogoImage = styled.img`
+  width: auto;
+  height: 200px;
+`
+
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -75,7 +80,7 @@ function LoginPage(){
   
   return (
     <LoginContainer>
-      <img src="../../images/youtube.png" alt="loginImage"/>
+      <LogoImage src="../../images/youtube.png" alt="loginImage"/>
       <LoginTitle>로그인하기</LoginTitle>
       <LoginForm onSubmit={handleLogin}>
         <Input 
