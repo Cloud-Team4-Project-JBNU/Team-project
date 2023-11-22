@@ -12,8 +12,6 @@ import styled, { keyframes } from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar';
 
-//navbar 가로로 줄면 ui 망가지는 현상 해결하기
-
 const StyledNavbarBrand = styled(Navbar.Brand)`
   margin-right: auto;
   &:hover{
@@ -124,20 +122,6 @@ function SideBar() {
                         alt="musicIcon"
                       />
                       음악
-                    </NavDropdown.Item>
-                    <NavDropdown.Item>
-                      <NavBarIcon
-                        src="../../../images/movieIcon.png"
-                        alt="musicIcon"
-                      />
-                      영화
-                    </NavDropdown.Item>
-                    <NavDropdown.Item>
-                      <NavBarIcon
-                        src="../../../images/shoppingIcon.png"
-                        alt="musicIcon"
-                      />
-                      쇼핑
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item>추가할거</NavDropdown.Item>
