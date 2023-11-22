@@ -11,6 +11,7 @@ import React from 'react';
 import styled, { keyframes } from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar';
+import sideBarData from './sideBarData';
 
 const StyledNavbarBrand = styled(Navbar.Brand)`
   margin-right: auto;
@@ -46,7 +47,7 @@ const YoutubeLogo = styled.img`
 
 function SideBar() {
   const navigate = useNavigate();
-
+  const {navItems, dropdownNavItems} = sideBarData;
   return (
     <>
       {[false].map((expand) => (
@@ -76,68 +77,22 @@ function SideBar() {
               </StyledOffCanvasHeader>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <StyledNavLink>
-                    <NavBarIcon
-                      src="../../../images/homeIcon.png"
-                      alt="homeIcon"
-                    />
-                    Home
-                  </StyledNavLink>
-                  {/* <StyledNavLink>Long</StyledNavLink> */}
-                  <StyledNavLink>
-                    <NavBarIcon
-                      src="../../../images/shorts.svg"
-                      alt="shortslogo"
-                    />
-                    Shorts
-                  </StyledNavLink>
+                  {navItems.map((item) => (
+                    <StyledNavLink key={item.id}>
+                      <NavBarIcon src={item.src} alt={item.alt}/>
+                      {item.content}
+                    </StyledNavLink>
+                  ))}
                   <StyledNavDropdown
                     title="실시간 채팅"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                   >
-                    <NavDropdown.Item>
-                      <NavBarIcon
-                        src="../../../images/gameIcon.png"
-                        alt="gameIcon"
-                      />
-                      게임
-                    </NavDropdown.Item>
-                    <NavDropdown.Item>
-                      <NavBarIcon
-                        src="../../../images/sportsIcon.png"
-                        alt="sportsIcon"
-                      />
-                      스포츠
-                    </NavDropdown.Item>
-                    <NavDropdown.Item>
-                      <NavBarIcon
-                        src="../../../images/studyIcon.png"
-                        alt="studyIcon"
-                      />
-                      학습
-                    </NavDropdown.Item>
-                    <NavDropdown.Item>
-                      <NavBarIcon
-                        src="../../../images/musicIcon.png"
-                        alt="musicIcon"
-                      />
-                      음악
-                    </NavDropdown.Item>
-                    <NavDropdown.Item>
-                      <NavBarIcon
-                        src="../../../images/movieIcon.png"
-                        alt="musicIcon"
-                      />
-                      영화
-                    </NavDropdown.Item>
-                    <NavDropdown.Item>
-                      <NavBarIcon
-                        src="../../../images/shoppingIcon.png"
-                        alt="musicIcon"
-                      />
-                      쇼핑
-                    </NavDropdown.Item>
-                    {/* map으로 코드길이 줄일생각해보기 */}
+                    {dropdownNavItems.map((items)=> (
+                      <NavDropdown.Item key={items.id}>
+                        <NavBarIcon src={items.src} alt={items.alt}/>
+                        {items.content}
+                      </NavDropdown.Item>
+                    ))}
                     <NavDropdown.Divider />
                     <NavDropdown.Item>추가할거</NavDropdown.Item>
                   </StyledNavDropdown>
