@@ -12,8 +12,6 @@ import styled, { keyframes } from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar';
 
-//navbar 가로로 줄면 ui 망가지는 현상 해결하기
-
 const StyledNavbarBrand = styled(Navbar.Brand)`
   margin-right: auto;
   &:hover{
@@ -139,6 +137,7 @@ function SideBar() {
                       />
                       쇼핑
                     </NavDropdown.Item>
+                    {/* map으로 코드길이 줄일생각해보기 */}
                     <NavDropdown.Divider />
                     <NavDropdown.Item>추가할거</NavDropdown.Item>
                   </StyledNavDropdown>
