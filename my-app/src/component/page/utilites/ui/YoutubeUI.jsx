@@ -1,42 +1,57 @@
-import styled from "styled-components";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import YouTube from "react-youtube";
+import styled from "styled-components";
+import axios from 'axios';
+import videosData from "./youtubeData.js"
 
 const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-`
-
-const StyledYoutube = styled(YouTube)`
-  box-sizing: border-box;
-  width: calc(30% - 10px);
-  margin: 10px;
-  height: calc(40% - 10px);
-
-  @media (min-width: 1600px) {
-    width: calc(25% - 10px);
+  gap: 20px;
+  @media (max-width: 1680px){
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+  }
+  
+  @media (max-width: 1280px) {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
   }
 
-  @media (min-width: 1300px) and (max-width: 1599px) {
-    width: calc(33.33% - 10px);
+  @media (max-width: 720px) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
   }
 
-  @media (max-width: 1080px) {
-    width: calc(50% - 10px);
+  @media (max-width: 480px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
-`
 
-function YoutubeUI(){
+  @media (max-width: 360px) {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+`;
+
+function YoutubeUI() {
+  const [videos, setVideos] = useState([...videosData]);
+  // useEffect(() => {
+  //   //백엔드에서 데이터 받아오기
+  //   axios.get('YOUR_BACKEND_API_URL')
+  //     .then((res) => {
+  //       setVideos(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
+
   return (
     <Container>
-      <StyledYoutube />
-      <StyledYoutube />
-      <StyledYoutube />
-      <StyledYoutube />
-      {/* Add more StyledYoutube components as needed */}
+      {videos.map((video) => (
+        <YouTube key={video.videoId} videoId={video.videoId} />
+      ))}
     </Container>
-  )
+  );
 }
 
 export default YoutubeUI;
