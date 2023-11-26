@@ -7,6 +7,7 @@ import SideBar from './ui/SideBar';
 
 import YouTube from 'react-youtube';
 import YoutubeUI from './ui/YoutubeUI';
+import ShortsUI from './ui/ShortsUI';
 
 function UtilPage(){
   const navigate = useNavigate();
@@ -16,8 +17,8 @@ function UtilPage(){
   return (
     <div>
       <SideBar/>
-      기능구현 어떻게 할지 정해봐야함.
       <YoutubeUI/>
+      <ShortsUI/>
     </div>
   )
 }
