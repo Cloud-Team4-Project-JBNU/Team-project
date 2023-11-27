@@ -38,7 +38,7 @@ const StyledYouTube = styled(YouTube)`
 
 
 function YoutubeUI() {
-  const videoIds = ['dcMxj_IiwXo', '3ArYMq5AomI', 'eVTXPUF4Oz4', 'MNyNRraMU8Y', 'pu93tLF8X0s', 'UqAjCtbJAVk', 'rboiHxBqdZk', '5bGMA2c93TY', 'azvujWI0mpM'];
+  const videoIds = ['Y1FbowQRcmI', 'dcMxj_IiwXo', '3ArYMq5AomI', 'eVTXPUF4Oz4', 'MNyNRraMU8Y', 'pu93tLF8X0s', 'UqAjCtbJAVk', 'rboiHxBqdZk', '5bGMA2c93TY', 'azvujWI0mpM'];
   //백엔드랑 연동해서 데이터받아오기
   const playersRef = useRef({});
   const timeoutsRef = useRef({});
