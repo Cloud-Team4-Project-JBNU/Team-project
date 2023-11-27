@@ -54,11 +54,14 @@ function SideBar() {
         <Navbar key={expand} expand={expand} className="bg-white mb-3" >
           <Container fluid>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
-            <StyledNavbarBrand>
+            <StyledNavbarBrand
+              onClick={() => {
+                window.location.reload(); // 새로고침 버튼을 누른 것 같이 동작
+              }}
+            >
               <NavBarIcon
                 src="../../../images/youtube.png"
                 alt="homelogo"
-                onClick={()=>{navigate('/util')}}
               />
               Youtube
             </StyledNavbarBrand>

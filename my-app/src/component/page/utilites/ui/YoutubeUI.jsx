@@ -16,9 +16,6 @@ const GridContainer = styled.div`
   }
 `;
 
-// 그리드 내 비디오 개수를 최대 5개로 제한하기 위한 CSS 미디어 쿼리 추가
-
-
 const VideoWrapper = styled.div`
   overflow: hidden;
   position: relative;
@@ -33,8 +30,12 @@ const StyledYouTube = styled(YouTube)`
     left: 0;
     width: 100%;
     height: 100%;
+    border-radius: 8px;
   }
+  
 `;
+
+
 
 function YoutubeUI() {
   const videoIds = ['dcMxj_IiwXo', '3ArYMq5AomI', 'eVTXPUF4Oz4', 'MNyNRraMU8Y', 'pu93tLF8X0s', 'UqAjCtbJAVk', 'rboiHxBqdZk', '5bGMA2c93TY', 'azvujWI0mpM'];
@@ -91,6 +92,7 @@ function YoutubeUI() {
           />
         </VideoWrapper>
       ))}
+     
     </GridContainer>
   );
 }

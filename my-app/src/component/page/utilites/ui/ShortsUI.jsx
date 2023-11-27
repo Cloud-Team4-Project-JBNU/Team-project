@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React, { useRef } from 'react';
 import YouTube from 'react-youtube';
 import styled from 'styled-components';
