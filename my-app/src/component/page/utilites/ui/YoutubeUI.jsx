@@ -1,4 +1,5 @@
-import React, { useRef } from 'react';
+/*eslint-disable*/
+import React, { useRef, useEffect } from 'react';
 import YouTube from 'react-youtube';
 import styled from 'styled-components';
 
@@ -90,7 +91,6 @@ function YoutubeUI() {
             opts={opts}
             onReady={(event) => onReady(event, id)}
           />
-          비디오 정보
         </VideoWrapper>
       ))}
      
