@@ -4,8 +4,9 @@ import React from 'react';
 import LoginPage from './component/page/login/LoginPage';
 import { Routes, Route } from 'react-router-dom';
 import SignupPage from './component/page/login/SignupPage';
-import UtilPage from './component/page/utilites/UtilPage';
+import HomePage from './component/page/utilites/HomePage';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ShortsPage from './component/page/utilites/ShortsPage';
 
 function App() {
   return (
@@ -13,7 +14,9 @@ function App() {
       <Routes>
         <Route path="/" element={ <LoginPage/> }/>
         <Route path="/signup" element={ <SignupPage/>} />
-        <Route path="/util" element={ <UtilPage/>} />
+        <Route path="/home" element={ <HomePage/>}/>
+        <Route path="/shorts" element={<ShortsPage/>}/>
+        
       </Routes>
     </div>
   );

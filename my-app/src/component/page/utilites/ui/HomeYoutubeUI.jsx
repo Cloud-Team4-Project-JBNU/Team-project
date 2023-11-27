@@ -1,45 +1,27 @@
 /*eslint-disable*/
-import React, { useRef, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import YouTube from 'react-youtube';
 import styled from 'styled-components';
-import NavBarIcon from './NavBarIcon';
-
-const ShortsContainer = styled.div`
-  margin-top: 10px;
-  padding-top: 20px;
-  position: relative;
-`
-
-const ShortsLogo = styled.div`
-  position: absolute;
-  top: 4px;
-  left: 4px;
-`
 
 const GridContainer = styled.div`
-  margin-top: 10px;
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-auto-rows: minmax(100px, auto);
   padding: 1rem;
   max-width: 100%;
   justify-content: center;
+
+  @media (min-width: 1500px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
 `;
 
 const VideoWrapper = styled.div`
   overflow: hidden;
   position: relative;
-  aspect-ratio: 9 / 16;
-  width: 100%;
-  background-color: #000; // 로딩 중이거나 이미지가 없을 때의 배경색
-  border-radius: 8px; // 영상의 모서리를 둥글게 처리
-  margin-bottom: 1rem; // 영상 간의 간격 조정
-
-  // 화면 크기에 따른 유연한 크기 조정을 위한 미디어 쿼리
-  @media (max-width: 299px) {
-    min-width: 100px; // 매우 작은 화면에서의 최소 가로 크기 조정
-  }
+  padding-top: 56.25%; // 16:9 Aspect Ratio
+  height: 0;
 `;
 
 const StyledYouTube = styled(YouTube)`
@@ -50,20 +32,21 @@ const StyledYouTube = styled(YouTube)`
     width: 100%;
     height: 100%;
     border-radius: 8px;
+    
   }
+  
 `;
 
-function ShortsUI() {
+function HomeYoutubeUI() {
+  const videoIds = ['Y1FbowQRcmI', 'dcMxj_IiwXo', '3ArYMq5AomI', 'eVTXPUF4Oz4', 'MNyNRraMU8Y', 'pu93tLF8X0s', 'UqAjCtbJAVk', 'rboiHxBqdZk', '5bGMA2c93TY', 'azvujWI0mpM'];
+  //백엔드랑 연동해서 데이터받아오기
   
-  //이거도 백엔드에서 데이터 받아와야함.
-  const shortsData = ['8PbpEoCfWE0', 'JyBleAGqPKA', '0SHxoFCrv-0', 'zcWKMVwP22Q', 'QhzvzeI1HXo', 'yEHZ5QORy8M', 'XJArO6YxmSs'];
-
   const playersRef = useRef({});
   const timeoutsRef = useRef({});
 
   const onReady = (event, id) => {
     playersRef.current[id] = event.target;
-  }
+  };
 
   const onMouseEnter = (id) => {
     if (timeoutsRef.current[id]) {
@@ -96,32 +79,23 @@ function ShortsUI() {
   };
 
   return (
-    <ShortsContainer>
-      <ShortsLogo>
-        <NavBarIcon
-          src = "../../../images/shorts.svg"
-          alt = "shortslogo"
-        />Shorts
-      </ShortsLogo>
-      
-      <GridContainer>
-        {shortsData.map((id) => (
-          <VideoWrapper 
-            key={id} 
-            onMouseEnter={() => onMouseEnter(id)}
-            onMouseLeave={() => onMouseLeave(id)}
-          >
-            <StyledYouTube
-              videoId={id}
-              opts={opts}
-              onReady={(event) => onReady(event, id)}
-            />
-          </VideoWrapper>
-        ))}
-      </GridContainer>
-    </ShortsContainer>
-    
+    <GridContainer>
+      {videoIds.map((id) => (
+        <VideoWrapper
+          key={id}
+          onMouseEnter={() => onMouseEnter(id)}
+          onMouseLeave={() => onMouseLeave(id)}
+        >
+          <StyledYouTube
+            videoId={id}
+            opts={opts}
+            onReady={(event) => onReady(event, id)}
+          />
+        </VideoWrapper>
+      ))}
+     
+    </GridContainer>
   );
 }
 
-export default ShortsUI;
+export default HomeYoutubeUI;

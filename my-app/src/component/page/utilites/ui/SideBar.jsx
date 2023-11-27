@@ -11,7 +11,7 @@ import React from 'react';
 import styled, { keyframes } from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar';
-import sideBarData from './sideBarData';
+import getSideBarData from './getSideBarData';
 
 const StyledNavbarBrand = styled(Navbar.Brand)`
   margin-right: auto;
@@ -47,7 +47,7 @@ const YoutubeLogo = styled.img`
 
 function SideBar() {
   const navigate = useNavigate();
-  const {navItems, dropdownNavItems} = sideBarData;
+  const {navItems, dropdownNavItems} = getSideBarData(navigate);
   return (
     <>
       {[false].map((expand) => (
@@ -81,7 +81,7 @@ function SideBar() {
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   {navItems.map((item) => (
-                    <StyledNavLink key={item.id}>
+                    <StyledNavLink key={item.id} onClick={item.onClick}>
                       <NavBarIcon src={item.src} alt={item.alt}/>
                       {item.content}
                     </StyledNavLink>

@@ -101,7 +101,7 @@ function LoginPage(){
         계정이 없으신가요? <A href="/signup" content="회원가입하기"></A>
       </p>
       {msg}
-      <button onClick={()=>{navigate("/util")}}>temporary</button>
+      <button onClick={()=>{navigate("/home")}}>temporary</button>
     </LoginContainer>
   );
 }
