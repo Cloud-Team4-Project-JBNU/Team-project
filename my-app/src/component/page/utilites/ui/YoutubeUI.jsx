@@ -90,6 +90,7 @@ function YoutubeUI() {
             opts={opts}
             onReady={(event) => onReady(event, id)}
           />
+          비디오 정보
         </VideoWrapper>
       ))}
      

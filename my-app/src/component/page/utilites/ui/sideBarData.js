@@ -53,12 +53,5 @@ const dropdownNavItems = [
   },
 ];
 
-const youtubeinfo = [
-  {
-    videoID : qhe7bx-tenA,
-    genre: game,
-
-  }
-]
 
 export default { navItems, dropdownNavItems };
