@@ -2,7 +2,7 @@
 import React, { useRef, useState } from 'react';
 import YouTube from 'react-youtube';
 import styled from 'styled-components';
-import NavBarIcon from './NavBarIcon';
+import NavBarIcon from '../NavBarIcon';
 
 const ShortsContainer = styled.div`
   margin-top: 10px;
