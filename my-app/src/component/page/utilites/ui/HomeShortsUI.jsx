@@ -63,6 +63,7 @@ function HomeShortsUI() {
 
   const onReady = (event, id) => {
     playersRef.current[id] = event.target;
+    event.target.mute();
   }
 
   const onMouseEnter = (id) => {
