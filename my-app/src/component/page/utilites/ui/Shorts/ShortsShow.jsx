@@ -15,6 +15,8 @@ const GenreShower = styled.div`
 `
 
 const VideoWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
   overflow: hidden;
   position: relative;
   width: 100%;
@@ -36,15 +38,24 @@ const StyledYoutube = styled(YouTube)`
   }
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+`
+
+const StyledButton = styled.div`
+  background-color: #999999;
+  border-radius: 50%;
+`
 
 function ShortsShow(){
 
   const opts = {
     playerVars: {
-      autoplay: 0, // Disable autoplay to prevent the video from playing on load
+      autoplay: 1, // Disable autoplay to prevent the video from playing on load
       modestbranding: 1, // Hide the Youtube logo as much as possible
       controls: 0, // Hide all video controls
-      disablekb: 1, // Disable keyboard controls
       fs: 0, // Hide the full screen button
       iv_load_policy: 3, // Hide video annotations by default
       showinfo: 0, // Hide video title and uploader before video starts playing
@@ -58,12 +69,13 @@ function ShortsShow(){
       <GenreShower>장르</GenreShower>
       <VideoWrapper>
         <StyledYoutube 
-          videoId='Dmolgd36e7o'
+          videoId='6zcccp1p-Uc'
           opts={opts}
         />
-
       </VideoWrapper>
-
+      <ButtonContainer>
+        버튼올거임
+      </ButtonContainer>
     </ShortsContainer>
   )
 }

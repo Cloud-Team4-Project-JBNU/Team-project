@@ -75,6 +75,7 @@ function HomeYoutubeUI() {
       iv_load_policy: 3, // Hide video annotations by default
       showinfo: 0, // Hide video title and uploader before video starts playing
       rel: 0, // Do not show related videos when playback ends
+      origin: 'https://localhost:3000'
     },
   };
 
