@@ -2,29 +2,41 @@
 import React, { useState, useEffect } from 'react';
 import YouTube from 'react-youtube';
 import styled from "styled-components";
+import getButtonData from './getButtonData';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+`
+
+const GenreButton = styled.button`
+  border-radius: 8px;
+  width: 100%;
+  max-width: 500px;
+  height: 5vh;
+  margin: 0 auto;
+`
 
 const ShortsContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
-
-const GenreShower = styled.div`
-  padding: 6px;
+  flex-direction: row;
+  position: relative;
+  width: 800px;
+  margin: 30px auto 0 auto;
 `
 
 const VideoWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   overflow: hidden;
   position: relative;
   width: 100%;
-  margin-bottom: 1rem;
+  height: 80vh;
+  max-width: 500px;
+  margin: auto;
   background-color: #000;
   border-radius: 8px;
-  aspect-ratio: 9 / 16;
-  max-width: 400px;
 `;
 
 const StyledYoutube = styled(YouTube)`
@@ -41,16 +53,27 @@ const StyledYoutube = styled(YouTube)`
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  position: absolute;
+  bottom: 4px;
+  right: -10px;
 `
 
-const StyledButton = styled.div`
+const StyledButton = styled.img`
   background-color: #999999;
+  margin: 10px;
   border-radius: 50%;
+  height: 80px;
+  width: 80px;
+  padding: 10px;
+  &:hover{
+    cursor: pointer;
+  }
 `
 
 function ShortsShow(){
   const [videoId, setVideoId] = useState('6zcccp1p-Uc');
+  const buttons = [...getButtonData]; 
+  
   const updateVideoId = (newVideoId) => {
     setVideoId(newVideoId);
   }
@@ -77,7 +100,7 @@ function ShortsShow(){
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('wheel', handleWheel);
     };
-  }, [])
+  }, [handleKeyDown, handleWheel])
 
   const opts = {
     playerVars: {
@@ -96,20 +119,27 @@ function ShortsShow(){
   }
 
   return (
-    <ShortsContainer>
-      
-      <GenreShower>장르</GenreShower>
-      <VideoWrapper>
-        <StyledYoutube 
-          videoId={videoId}
-          opts={opts}
-          onReady={onPlayerReady}
-        />
-      </VideoWrapper>
-      <ButtonContainer>
-        버튼올거임
-      </ButtonContainer>
-    </ShortsContainer>
+    <Container>
+      <GenreButton>button</GenreButton>
+      <ShortsContainer>
+        <VideoWrapper>
+          <StyledYoutube 
+            videoId={videoId}
+            opts={opts}
+            onReady={onPlayerReady}
+          />
+        </VideoWrapper>
+        <ButtonContainer>
+          {buttons.map((item) => (
+            <StyledButton key={item.id}
+              src={item.src}
+              alt={item.alt}
+            />
+          ))}
+        </ButtonContainer>
+      </ShortsContainer>
+    </Container>
+    
   )
 }
 
