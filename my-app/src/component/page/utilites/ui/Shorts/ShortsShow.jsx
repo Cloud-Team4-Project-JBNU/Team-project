@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import YouTube from 'react-youtube';
 import styled from "styled-components";
 
@@ -50,6 +50,34 @@ const StyledButton = styled.div`
 `
 
 function ShortsShow(){
+  const [videoId, setVideoId] = useState('6zcccp1p-Uc');
+  const updateVideoId = (newVideoId) => {
+    setVideoId(newVideoId);
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'ArrowDown'){
+      updateVideoId('GYK__pd_ejA')
+    }
+  }
+
+  const handleWheel = (event) => {
+    if (event.deltaY > 0) {
+      updateVideoId('GYK__pd_ejA')
+    }
+  }
+
+  useEffect(()=> {
+    // 마운트 될 때 이벤트 리스너 추가
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('wheel', handleWheel);
+
+    // 언마운트 될 때 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, [])
 
   const opts = {
     playerVars: {
@@ -63,14 +91,19 @@ function ShortsShow(){
     },
   };
 
+  const onPlayerReady = (event) => {
+    console.log("플레이어 준비");
+  }
+
   return (
     <ShortsContainer>
       
       <GenreShower>장르</GenreShower>
       <VideoWrapper>
         <StyledYoutube 
-          videoId='6zcccp1p-Uc'
+          videoId={videoId}
           opts={opts}
+          onReady={onPlayerReady}
         />
       </VideoWrapper>
       <ButtonContainer>
