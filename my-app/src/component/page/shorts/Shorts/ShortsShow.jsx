@@ -11,11 +11,18 @@ const Container = styled.div`
 `
 
 const GenreButton = styled.button`
+  background-color: #e2e2e2;
   border-radius: 8px;
   width: 100%;
   max-width: 500px;
   height: 5vh;
   margin: 0 auto;
+  font-size: 20px;
+  font-weight: 600;
+  &:hover{
+    cursor: pointer;
+    background-color: #e98a81; // 색감 수정
+  }
 `
 
 const ShortsContainer = styled.div`
@@ -23,7 +30,7 @@ const ShortsContainer = styled.div`
   flex-direction: row;
   position: relative;
   width: 800px;
-  margin: 30px auto 0 auto;
+  margin: 20px auto 0 auto;
 `
 
 const VideoWrapper = styled.div`
@@ -55,11 +62,11 @@ const ButtonContainer = styled.div`
   flex-direction: column;
   position: absolute;
   bottom: 4px;
-  right: -10px;
+  right: 20px;
 `
 
 const StyledButton = styled.img`
-  background-color: #999999;
+  background-color: #e2e2e2;
   margin: 10px;
   border-radius: 50%;
   height: 80px;
@@ -67,6 +74,7 @@ const StyledButton = styled.img`
   padding: 10px;
   &:hover{
     cursor: pointer;
+    background-color: #5f5f5f;
   }
 `
 
@@ -120,7 +128,7 @@ function ShortsShow(){
 
   return (
     <Container>
-      <GenreButton>button</GenreButton>
+      <GenreButton>장르</GenreButton>
       <ShortsContainer>
         <VideoWrapper>
           <StyledYoutube 

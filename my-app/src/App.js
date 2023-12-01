@@ -4,9 +4,9 @@ import React from 'react';
 import LoginPage from './component/page/login/LoginPage';
 import { Routes, Route } from 'react-router-dom';
 import SignupPage from './component/page/login/SignupPage';
-import HomePage from './component/page/utilites/HomePage';
+import HomePage from './component/page/home/HomePage';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ShortsPage from './component/page/utilites/ShortsPage';
+import ShortsPage from './component/page/shorts/ShortsPage';
 
 function App() {
   return (

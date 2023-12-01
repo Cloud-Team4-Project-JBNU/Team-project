@@ -1,7 +1,7 @@
 /*eslint-disable*/
 import React, { useEffect, useState } from 'react';
-import SideBar from './ui/SideBar';
-import ShortsShow from './ui/Shorts/ShortsShow';
+import SideBar from '../utilites/SideBar';
+import ShortsShow from './Shorts/ShortsShow';
 
 function ShortsPage(){
 
