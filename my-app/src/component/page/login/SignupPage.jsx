@@ -167,7 +167,7 @@ function SignupPage() {
           <GenderOption value="여자">여자</GenderOption>
         </GenderSelect>
 
-        <Button type="submit">회원가입</Button>
+        <Button type="submit" onClick={handleSubmit}>회원가입</Button>
       </SignupForm>
       <p>
         이미 계정이 있으신가요? <A href="/" content="로그인하기" />
