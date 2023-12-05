@@ -128,7 +128,7 @@ function ShortsShow(){
 
   return (
     <Container>
-      <GenreButton>장르</GenreButton>
+      <GenreButton>채팅방에 공유</GenreButton>
       <ShortsContainer>
         <VideoWrapper>
           <StyledYoutube 

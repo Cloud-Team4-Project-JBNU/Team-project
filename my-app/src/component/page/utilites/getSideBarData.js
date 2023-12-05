@@ -29,7 +29,7 @@ const getSideBarData = (navigate) => {
         id: 2,
         src: "../../../images/sportsIcon.png",
         alt: "sportsIcon",
-        content: '스포츠'
+        content: '스포츠',
       },
       {
         id: 3,
