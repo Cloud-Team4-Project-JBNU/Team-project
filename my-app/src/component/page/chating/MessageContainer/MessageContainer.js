@@ -1,11 +1,11 @@
+/*eslint-disable*/
 import React, { useState } from "react";
 import "./MessageContainer.css";
-import { Container } from "@mui/system";
 
 const MessageContainer = ({ messageList, user }) => {
   return (
     <div>
-      {messageList.map((message, index) => {
+      {/* {messageList.map((message, index) => {
         return (
           <Container key={message._id} className="message-container">
             {message.user.name === "system" ? (
@@ -35,7 +35,7 @@ const MessageContainer = ({ messageList, user }) => {
             )}
           </Container>
         );
-      })}
+      })} */}
     </div>
   );
 };

@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import Button from "./ui/Button";
 import A from "./ui/A";
+import Input from "./ui/Input";
 
 const LogoImage = styled.img`
   width: auto;
@@ -26,10 +27,6 @@ const LoginForm = styled.form`
   flex-direction: column;
 `;
 
-const Input = styled.input`
-  margin: 10px 0;
-  padding: 10px;
-`;
 
 const LoginTitle = styled.h1`
   margin: 10px;
@@ -101,7 +98,7 @@ function LoginPage(){
       <p>
         계정이 없으신가요? <A href="/signup" content="회원가입하기"></A>
       </p>
-      {msg}
+      {(msg.length> 5) ? msg: ''}
       <button onClick={()=>{navigate("/home")}}>temporary</button>
     </LoginContainer>
   );

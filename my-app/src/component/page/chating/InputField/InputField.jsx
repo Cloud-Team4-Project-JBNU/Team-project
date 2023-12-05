@@ -1,7 +1,8 @@
+/*eslint-disable*/
 import React from 'react'
-import { Input } from "@mui/base/Input";
-import { Button } from "@mui/base/Button";
 import './InputField.css'
+import Input from '../../login/ui/Input'
+import Button from '../../login/ui/Button'
 const InputField = ({message,setMessage,sendMessage}) => {
 
   return (
