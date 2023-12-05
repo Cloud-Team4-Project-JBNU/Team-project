@@ -47,35 +47,36 @@ function LoginPage(){
 
   const checkCredentials = async (email, password) => {
     //API 호출 시뮬레이션을 위한 타임아웃 사용
-    return new Promise((resolve, reject) => {
-      setTimeout(()=> {
-        //API호출
-        //예시
-        const users = [
-          { email : 'user@example.com', password : 'password123', name: 'John Doe' }
-        ];
-
-        const user = users.find(u => u.email === email && u.password === password)
-        if(user){
-          resolve(user);
-        }else{
-          reject('자격 증명이 일치하지 않습니다.')
-        }
-      }, 1000);
-    });
+    const body = { email, password }
+    try{
+      const response = await axios.post('/login_database_endpoint_url', body);
+      //백엔드에서 성공 응답을 받으면 true를 리턴하게 함.
+      if (response.status === 200) {
+        return true;
+      }
+    }catch(error){
+      console.log("Login error: ", error);
+      alert("loginerror");
+      return false;
+    }
   };
 
   const handleLogin = async(e) => {
     e.preventDefault();
     setLoading(true);
-    try{
-      const user = await checkCredentials(id, password)
-      dispatch(loginUser({ name: user.name, id: user.email}))
-      navigate('/util');
-    }catch(error){
-      setMsg(error);
+    
+    const isAuthenticated = await checkCredentials(id, password);
+    if (isAuthenticated){
+      setMsg("로그인 성공!")
+      alert(msg);
+      dispatch(loginUser({ name: user.name, id: user.email })); 
+      navigate('/home'); 
+      // 로그인 성공하면 리덕스 상태 업데이트 후 home으로 이동
+    }else{
+      setMsg("로그인 정보가 올바르지 않습니다.");
+      setId('');
+      setPassword('');
     }
-    setLoading(false);
   }
   
   return (
