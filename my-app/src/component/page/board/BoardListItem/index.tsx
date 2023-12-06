@@ -1,15 +1,14 @@
-/*eslint-disable*/
-import React from 'react';
-import './style.css';
+import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import { BoardListItem } from '../../../../types/interface';
+interface Props{
+  boardListItem: BoardListItem;
+}
 
-// 13번 45분까지 함. typescript로 모든 파일 바꿀생각도 해야할듯. Mocks 안만들어둠.
-
-function BoardListItem({ boardListItem }){
-  
+export default function BoardListItem({ boardListItem } : Props) {
   const { boardNumber, title, content, boardTitleImage } = boardListItem; 
   const { favoriteCount, commentCount, viewCount } = boardListItem;
-  const { writeDatetime, writerNickname, writeProfileImage } = boardListItem
+  const { writeDatetime, writerNickname, writerProfileImage } = boardListItem
   
   //function : 네비게이트 함수 
   const navigate = useNavigate();
@@ -24,7 +23,7 @@ function BoardListItem({ boardListItem }){
       <div className='board-list-item-box'>
         <div className='board-list-item-top'>
           <div className="board-list-item-profile-box">
-            <div className='board-list-item-profile-image' style={{backgroundImage: `url(${writeProfileImage ? writeProfileImage : '../../../images/userInfo.png'})`}}></div>
+            <div className='board-list-item-profile-image' style={{backgroundImage: `url(${writerProfileImage ? writerProfileImage : '../../../images/userInfo.png'})`}}></div>
           </div>
           <div className="board-list-item-write-box">
             <div className='board-list-item-nickname'>{writerNickname}</div>
@@ -50,5 +49,3 @@ function BoardListItem({ boardListItem }){
     </div>
   )
 }
-
-export default BoardListItem;

@@ -7,7 +7,7 @@ import SignupPage from './component/page/login/SignupPage';
 import HomePage from './component/page/home/HomePage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ShortsPage from './component/page/shorts/ShortsPage';
-import ChatPage from './component/page/chating/ChatPage';
+import BoardPage from './component/page/board/BoardPage';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
         <Route path="/signup" element={ <SignupPage/>} />
         <Route path="/home" element={ <HomePage/>}/>
         <Route path="/shorts" element={<ShortsPage/>}/>
-        <Route path="/chat" element={<ChatPage/>}/>
+        <Route path="/board" element={<BoardPage/>}/>
       </Routes>
     </div>
   );

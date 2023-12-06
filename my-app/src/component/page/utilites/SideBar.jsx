@@ -91,7 +91,7 @@ function SideBar() {
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                   >
                     {dropdownNavItems.map((items)=> (
-                      <NavDropdown.Item key={items.id} onClick={()=> {navigate('/chat')}}>
+                      <NavDropdown.Item key={items.id} onClick={()=> {navigate('/board')}}>
                         <NavBarIcon src={items.src} alt={items.alt}/>
                         {items.content}
                       </NavDropdown.Item>
