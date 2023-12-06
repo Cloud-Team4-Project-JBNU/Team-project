@@ -3,18 +3,18 @@ import React from 'react';
 import './style.css';
 import { useNavigate } from 'react-router-dom';
 
-// 13번 45분까지 함. typescript로 모든 파일 바꿀생각도 해야할듯.
+// 13번 45분까지 함. typescript로 모든 파일 바꿀생각도 해야할듯. Mocks 안만들어둠.
 
 function BoardListItem({ boardListItem }){
-  //properties
-  const { boardNumber, title, content, boardTitleImage } = boardListItem;
+  
+  const { boardNumber, title, content, boardTitleImage } = boardListItem; 
   const { favoriteCount, commentCount, viewCount } = boardListItem;
   const { writeDatetime, writerNickname, writeProfileImage } = boardListItem
   
   //function : 네비게이트 함수 
   const navigate = useNavigate();
 
-  //event handler
+  // event handler
   const onClickHandler = () => {
     navigate(boardNumber)
   }

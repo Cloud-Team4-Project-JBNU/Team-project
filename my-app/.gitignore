@@ -9,7 +9,7 @@
 /coverage
 
 # production
-#/build 빌드파일을 커밋하기 위함
+/build
 
 # misc
 .DS_Store
