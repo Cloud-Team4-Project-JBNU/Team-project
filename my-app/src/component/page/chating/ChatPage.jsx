@@ -2,16 +2,15 @@
 import React from 'react';
 import styled from "styled-components";
 import SideBar from '../utilites/SideBar';
-import MessageContainer from './MessageContainer/MessageContainer';
-import InputField from './InputField/InputField';
+import BoardListItem from '../BoardListItem/BoardListItem';
+
 
 
 function ChatPage(){
   return (
     <div>
       <SideBar/>
-      <MessageContainer/>
-      <InputField/>
+      <BoardListItem/>
     </div>
     
   )
