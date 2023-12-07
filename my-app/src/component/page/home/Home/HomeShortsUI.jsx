@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react';
 import YouTube from 'react-youtube';
 import styled from 'styled-components';
 import NavBarIcon from '../../utilites/NavBarIcon';
+import getYoutubeData from './getYoutubeData';
 
 const ShortsContainer = styled.div`
   margin-top: 10px;
@@ -42,6 +43,13 @@ const VideoWrapper = styled.div`
   }
 `;
 
+const ProfileImage = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius:50%;
+  margin-right:8px;
+`
+
 const StyledYouTube = styled(YouTube)`
   iframe {
     position: absolute;
@@ -53,17 +61,55 @@ const StyledYouTube = styled(YouTube)`
   }
 `;
 
+
+const VideoContainer = styled.div`
+  background: rgba(0, 0, 0, 0);
+  color: black;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+const VideoTitleWrapper = styled.div`
+  flex: 1; /* Take remaining space */
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px; 
+  overflow: hidden;
+  `;
+
+const VideoTitle = styled.div`
+  font-size: 14px;
+  margin-bottom: 4px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: pre-line; 
+`;
+
+const VideoInfo = styled.div`
+  font-size: 13px;
+  color: gray;
+  display: flex;
+  align-items: center;
+`;
+const UploaderText = styled.span`
+  margin-right: 8px;
+`;
+
 function HomeShortsUI() {
   
-  //이거도 백엔드에서 데이터 받아와야함.
-  const shortsData = ['8PbpEoCfWE0', 'JyBleAGqPKA', '0SHxoFCrv-0', 'zcWKMVwP22Q', 'QhzvzeI1HXo', 'yEHZ5QORy8M', 'XJArO6YxmSs'];
+  const {shortsData : videoInfo} = getYoutubeData(); 
 
   const playersRef = useRef({});
   const timeoutsRef = useRef({});
 
   const onReady = (event, id) => {
     playersRef.current[id] = event.target;
-    event.target.mute();
   }
 
   const onMouseEnter = (id) => {
@@ -106,21 +152,33 @@ function HomeShortsUI() {
         />Shorts
       </ShortsLogo>
       
+
       <GridContainer>
-        {shortsData.map((id) => (
-          <VideoWrapper 
-            key={id} 
-            onMouseEnter={() => onMouseEnter(id)}
-            onMouseLeave={() => onMouseLeave(id)}
-          >
-            <StyledYouTube
-              videoId={id}
-              opts={opts}
-              onReady={(event) => onReady(event, id)}
-            />
-          </VideoWrapper>
-        ))}
-      </GridContainer>
+  {videoInfo.map((data) => (
+    <div key={data.id}>
+      <VideoWrapper
+        onMouseEnter={() => onMouseEnter(data.id)}
+        onMouseLeave={() => onMouseLeave(data.id)}
+      >
+        <StyledYouTube
+          videoId={data.videoId}
+          opts={opts}
+          onReady={(event) => onReady(event, data.id)}
+        />
+      </VideoWrapper>
+      <VideoContainer>
+        <ProfileImage src={data.profile} alt="profile" />
+        <VideoTitleWrapper>
+          <VideoTitle>{data.title}</VideoTitle>
+          <VideoInfo>
+            <UploaderText>{data.uploader}</UploaderText>
+            · {data.viewCount}
+          </VideoInfo>
+        </VideoTitleWrapper>
+      </VideoContainer>
+    </div>
+  ))}
+</GridContainer>
     </ShortsContainer>
     
   );

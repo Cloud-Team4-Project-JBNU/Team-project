@@ -10,6 +10,7 @@ import ShortsPage from './component/page/shorts/ShortsPage';
 import BoardPage from './component/page/board/BoardPage';
 import CommentPage from './component/page/board/CommmentPage';
 import FavoritePage from './component/page/board/FavoritePage';
+import WritePage from './component/page/board/WritePage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/board" element={<BoardPage/>}/>
         <Route path="/comment" element={<CommentPage/>}/>
         <Route path="/favorite" element={<FavoritePage/>}/>
+        <Route path='/board-write' element={<WritePage/>}/>
       </Routes>
     </div>
   );
