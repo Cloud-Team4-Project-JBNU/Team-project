@@ -1,11 +1,14 @@
+/*eslint-disable*/
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { BoardListItem } from '../../../../types/interface';
+import "./style.css";
+
 interface Props{
   boardListItem: BoardListItem;
 }
 
-export default function BoardListItem({ boardListItem } : Props) {
+export default function BoardItem({ boardListItem } : Props) {
   const { boardNumber, title, content, boardTitleImage } = boardListItem; 
   const { favoriteCount, commentCount, viewCount } = boardListItem;
   const { writeDatetime, writerNickname, writerProfileImage } = boardListItem
@@ -19,8 +22,8 @@ export default function BoardListItem({ boardListItem } : Props) {
   }
 
   return (
-    <div className='board-list-item'>
-      <div className='board-list-item-box'>
+    <div className='board-list-item' onClick={onClickHandler}>
+      <div className='board-list-item-main-box'>
         <div className='board-list-item-top'>
           <div className="board-list-item-profile-box">
             <div className='board-list-item-profile-image' style={{backgroundImage: `url(${writerProfileImage ? writerProfileImage : '../../../images/userInfo.png'})`}}></div>
@@ -40,9 +43,10 @@ export default function BoardListItem({ boardListItem } : Props) {
           </div>
         </div>
       </div>
+      {/* 여기 로직 수정필요 */}
       {boardTitleImage !== null && (
         <div className='board-list-item-image-box'>
-        <div className='board-list-item-image'style={{backgroundImage: `url(${boardTitleImage ? boardTitleImage : '../../../images/youtube.png'})`}}></div>
+          <div className='board-list-item-image'style={{backgroundImage: `url(${boardTitleImage ? boardTitleImage : '../../../images/youtube.png'})`}}></div>
         </div>
       )}
       
