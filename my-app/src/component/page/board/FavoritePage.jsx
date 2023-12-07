@@ -4,6 +4,7 @@ import SideBar from '../utilites/SideBar';
 import styled from "styled-components"
 import { favoriteListMock } from "../../../mocks";
 import FavoriteItem from "./FavoriteListItem";
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -16,9 +17,9 @@ function FavoritePage(){
     <div>
       <SideBar/>
       <Container>
-        {favoriteListMock.map((favoriteListItem, index)=>{
+        {favoriteListMock.map((favoriteListItem, index)=>(
           <FavoriteItem key={index} favoriteListItem={favoriteListItem}/>
-        })}
+        ))}
       </Container>
       
     </div>

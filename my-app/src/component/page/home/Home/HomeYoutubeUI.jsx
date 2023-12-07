@@ -2,44 +2,100 @@
 import React, { useRef, useEffect } from 'react';
 import YouTube from 'react-youtube';
 import styled from 'styled-components';
+import getYoutubeData from './getYoutubeData';
 
 const GridContainer = styled.div`
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  grid-auto-rows: minmax(100px, auto);
-  padding: 1rem;
-  max-width: 100%;
-  justify-content: center;
+  grid-template-columns: 1fr;
 
-  @media (min-width: 1500px) {
-    grid-template-columns: repeat(5, 1fr);
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
   }
 `;
-
 const VideoWrapper = styled.div`
+display: flex;
+  flex-direction: column;
+  border-radius: 8px;
   overflow: hidden;
-  position: relative;
-  padding-top: 56.25%; // 16:9 Aspect Ratio
-  height: 0;
+  height: 100%;
+  margin: 15px;
 `;
+
+const ProfileImage = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius:50%;
+  margin-right:8px;
+`
+
 
 const StyledYouTube = styled(YouTube)`
   iframe {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+
+    @media (min-width: 768px) {
+      /* Adjust height for screens 768 pixels and larger */
+      height: 250px; /* Adjust this value as needed */
+    }
+
+    @media (min-width: 1024px) {
+      /* Adjust height for screens 1024 pixels and larger */
+      height: 300px; /* Adjust this value as needed */
+    }
     border-radius: 8px;
     
   }
   
 `;
+const VideoContainer = styled.div`
+  background: rgba(0, 0, 0, 0);
+  color: black;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
+const VideoTitleWrapper = styled.div`
+  flex: 1; /* Take remaining space */
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px; 
+  overflow: hidden;
+  `;
+
+const VideoTitle = styled.div`
+  font-size: 14px;
+  margin-bottom: 4px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: pre-line; 
+`;
+
+const VideoInfo = styled.div`
+  font-size: 13px;
+  color: gray;
+  display: flex;
+  align-items: center;
+`;
+const UploaderText = styled.span`
+  margin-right: 8px;
+`;
 
 function HomeYoutubeUI() {
-  const videoIds = ['Y1FbowQRcmI', 'dcMxj_IiwXo', '3ArYMq5AomI', 'eVTXPUF4Oz4', 'MNyNRraMU8Y', 'pu93tLF8X0s', 'UqAjCtbJAVk', 'rboiHxBqdZk', '5bGMA2c93TY', 'azvujWI0mpM'];
-  //백엔드랑 연동해서 데이터받아오기
+  const {longData : videoInfo} = getYoutubeData();
   
   const playersRef = useRef({});
   const timeoutsRef = useRef({});
@@ -54,7 +110,7 @@ function HomeYoutubeUI() {
     }
     timeoutsRef.current[id] = setTimeout(() => {
       playersRef.current[id]?.playVideo();
-    }, 300); // Delay playing video for 1 second after mouse enter
+    }, 300);
   };
 
   const onMouseLeave = (id) => {
@@ -62,7 +118,7 @@ function HomeYoutubeUI() {
       clearTimeout(timeoutsRef.current[id]);
       timeoutsRef.current[id] = null;
     }
-    playersRef.current[id]?.stopVideo(); // Pause the video instead of stopping
+    playersRef.current[id]?.stopVideo();
   };
 
   const opts = {
@@ -81,17 +137,28 @@ function HomeYoutubeUI() {
 
   return (
     <GridContainer>
-      {videoIds.map((id) => (
+      {videoInfo.map((data) => (
         <VideoWrapper
-          key={id}
-          onMouseEnter={() => onMouseEnter(id)}
-          onMouseLeave={() => onMouseLeave(id)}
+          key={data.id}
+          onMouseEnter={()=> onMouseEnter(data.id)}
+          onMouseLeave={()=> {onMouseLeave(data.id)}}
         >
           <StyledYouTube
-            videoId={id}
+            videoId={data.videoId}
             opts={opts}
-            onReady={(event) => onReady(event, id)}
+            onReady={(event) => onReady(event, data.id)}
           />
+          <VideoContainer>
+            <ProfileImage src={data.profile} alt="Profile"/>
+            <VideoTitleWrapper>
+              <VideoTitle>{data.title}</VideoTitle>
+              <VideoInfo>
+                <UploaderText>{data.uploader}</UploaderText>
+                · {data.viewcount}
+              </VideoInfo>
+            </VideoTitleWrapper>
+          </VideoContainer>
+
         </VideoWrapper>
       ))}
      
