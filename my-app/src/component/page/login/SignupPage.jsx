@@ -1,13 +1,10 @@
 /*eslint-disable*/
 import styled from "styled-components";
-import { useSelector, useDispatch } from 'react-redux';
-import { loginUser } from '../../../store/store';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import Input from "./ui/Input";
 import Button from "./ui/Button";
-import A from "./ui/A";
 import DatePickerUI from "./ui/DatePickerUI";
 
 const LogoImage = styled.img`
@@ -45,6 +42,24 @@ const GenderSelect = styled.select`
 const GenderOption = styled.option`
   font-size: 15px;
   font-family: 'Noto-Sans KR', 'sans-serif';
+`
+
+const StyledButton = styled.button`
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
+  background-color: white;
+  border: 0px;
+  &:hover{
+    animation: twinkling infinite;
+  }
+
+  @keyframes twinkling{
+    0% { opacity: 1; }
+    50% { opacity : 0.5; }
+    100% { opacity : 1; }
+  }
+
 `
 
 function SignupPage() {
@@ -170,7 +185,7 @@ function SignupPage() {
         <Button type="submit" onClick={handleSubmit}>회원가입</Button>
       </SignupForm>
       <p>
-        이미 계정이 있으신가요? <A href="/" content="로그인하기" />
+        이미 계정이 있으신가요? <StyledButton onClick={()=>{navigate('/')}}>로그인하기</StyledButton>
       </p>
     </SignupContainer>
   );

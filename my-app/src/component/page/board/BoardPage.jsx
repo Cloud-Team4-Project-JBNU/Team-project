@@ -3,10 +3,16 @@ import React from 'react';
 import SideBar from '../utilites/SideBar';
 import BoardItem from './BoardListItem'
 import { latestBoardListMock } from '../../../mocks'
-import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+
+const ButtonContainer = styled.div`
+  display: flex;
+  margin: 10px;
+`
 
 const StyledButton = styled.button`
+  margin: 10px;
   height: 40px;
 `
 
@@ -18,8 +24,10 @@ function BoardPage(){
       {latestBoardListMock.map(boardListItem => (
         <BoardItem key={boardListItem.boardNumber} boardListItem={boardListItem} />
       ))}
-      <StyledButton onClick={()=> {navigate('/board-write')}}>게시물 작성하기</StyledButton>
-      <StyledButton onClick={{}}>새로고침</StyledButton>
+      <ButtonContainer>
+        <StyledButton onClick={()=> {navigate('/board-write')}}>게시물 작성하기</StyledButton>
+        <StyledButton onClick={()=>window.location.reload}>새로고침</StyledButton>
+      </ButtonContainer>
       
     </div>
     

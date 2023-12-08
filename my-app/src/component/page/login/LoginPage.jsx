@@ -6,7 +6,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import Button from "./ui/Button";
-import A from "./ui/A";
 import Input from "./ui/Input";
 
 const LogoImage = styled.img`
@@ -31,6 +30,25 @@ const LoginForm = styled.form`
 const LoginTitle = styled.h1`
   margin: 10px;
 `
+
+const StyledButton = styled.button`
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
+  background-color: white;
+  border: 0px;
+  &:hover{
+    animation: twinkling infinite;
+  }
+
+  @keyframes twinkling{
+    0% { opacity: 1; }
+    50% { opacity : 0.5; }
+    100% { opacity : 1; }
+  }
+
+`
+
 
 function LoginPage(){
   let user = useSelector((state) => state.user)
@@ -96,7 +114,7 @@ function LoginPage(){
         <Button type="submit">로그인</Button>
       </LoginForm >
       <p>
-        계정이 없으신가요? <A href="/signup" content="회원가입하기"></A>
+        계정이 없으신가요? <StyledButton onClick={()=>{navigate('/signup')}}>회원가입하기</StyledButton>
       </p>
       {(msg.length> 5) ? msg: ''}
       <button onClick={()=>{navigate("/home")}}>temporary</button>
