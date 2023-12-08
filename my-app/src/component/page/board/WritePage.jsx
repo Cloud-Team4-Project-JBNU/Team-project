@@ -8,6 +8,7 @@ function WritePage(){
       <SideBar/>
       <BoardWrite/>
       
+      게시물 작성, 리셋버튼만들기
       
     </div>
     

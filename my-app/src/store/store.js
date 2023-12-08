@@ -25,6 +25,11 @@ const userLogin = createSlice({
 });
 export const { loginUser, clearUser} = userLogin.actions;
 
+// const boardInfo = createSlice({
+  
+// })
+//게시판 정보 백에서 받아올때 전역변수 느낌으로 관리
+
 const store = configureStore({
   reducer: {
     userLogin : userLogin.reducer,
