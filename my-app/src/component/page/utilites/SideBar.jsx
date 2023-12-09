@@ -87,7 +87,7 @@ function SideBar() {
                     </StyledNavLink>
                   ))}
                   <StyledNavDropdown
-                    title="실시간 채팅"
+                    title="실시간 게시판"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                   >
                     {dropdownNavItems.map((items)=> (
@@ -96,8 +96,6 @@ function SideBar() {
                         {items.content}
                       </NavDropdown.Item>
                     ))}
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item>추가할거</NavDropdown.Item>
                   </StyledNavDropdown>
                 </Nav>
                 <Form className="d-flex" style={{marginTop: '20px'}}>
@@ -109,8 +107,6 @@ function SideBar() {
                   />
                   <Button variant="outline-success">Search</Button>
                 </Form>
-                <br/><br/>
-                추가할 것들
               </Offcanvas.Body>
               
             </Navbar.Offcanvas>        

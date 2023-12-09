@@ -4,6 +4,9 @@ import "./style.css";
 import styled from 'styled-components';
 import YouTube from "react-youtube";
 import { useNavigate } from 'react-router-dom';
+import { commentListMock } from '../../../../mocks';
+import CommentItem from '../CommentListItem';
+import { CommentListItem } from '../../../../types/interface';
 
 const VideoWrapper = styled.div`
   display: flex;
@@ -12,11 +15,31 @@ const VideoWrapper = styled.div`
 `
 
 const StyledYoutube = styled(YouTube)`
+  display: block; 
+  width: 100%; 
+  height: 0; 
+  padding-top: 56.25%; 
+  position: relative; 
 
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; 
+    height: 100%; 
+  }
 `
 
 const StyledShorts = styled(YouTube)`
-  
+  display: block;
+  position: relative;
+ 
+
+  iframe {
+    width: 360px;
+    height: 640px;
+
+  }
 `
 
 const ButtonContainer = styled.div`
@@ -115,7 +138,10 @@ export default function BoardDetail() {
         </div>
         <ButtonContainer>
           <StyledButton onClick={()=>{navigate('board')}}>댓글 작성하기</StyledButton>
-        </ButtonContainer>          
+        </ButtonContainer>
+        {commentListMock.map((commentListItem: CommentListItem, index: number) => (
+          <CommentItem key={index} commentListItem={commentListItem}/>
+        ))}         
       </div>
       
     </div>

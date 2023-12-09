@@ -1,7 +1,7 @@
+/*eslint-disable*/
 import React from 'react';
 import styled from "styled-components";
 import BoardDetail from './BoardDetail';
-import Comment from './Comment';
 import SideBar from '../utilites/SideBar';
 
 function BoardDetailPage(){
@@ -9,7 +9,6 @@ function BoardDetailPage(){
     <div>
       <SideBar/>
       <BoardDetail/>
-      <Comment/>
 
     </div>
   )

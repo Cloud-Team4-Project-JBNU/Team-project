@@ -3,20 +3,44 @@ import React, { useState, useRef, ChangeEvent, useEffect } from 'react'
 import "./style.css";
 import styled from 'styled-components';
 import YouTube from "react-youtube";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const VideoWrapper = styled.div`
   display: flex;
   justify-content: center;
-  //추가 css속성 넣기 
+  width: 100%;
+
 `
 
 const StyledYoutube = styled(YouTube)`
+  display: block; 
+  width: 100%; 
+  height: 0; 
+  padding-top: 56.25%; 
+  position: relative; 
 
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; 
+    height: 100%; 
+  }
 `
 
 const StyledShorts = styled(YouTube)`
-  
+  display: block;
+  position: relative;
+ 
+
+  iframe {
+    width: 360px;
+    height: 640px;
+
+  }
 `
+
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -34,13 +58,16 @@ const StyledButton = styled.button`
 
 export default function BoardWrite() {
   const [isUploaded, setIsUploaded] = useState(false);
-  const [uploadedVideo, setUploadedVideo] = useState<string>("");
   const [videoType, setVideoType] = useState<string>("");
 
-  const [title, setTitle] = useState<string>("");
-  const [text, setText] = useState<string>("");
+  const [boardVideoId, setboardVideoId] = useState<string>("");
+  const [boardTitle, setBoardTitle] = useState<string>("");
+  const [boardText, setBoardText] = useState<string>("");
+
   const [textareaHeight, setTextareaHeight] = useState<string>("auto");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const navigate = useNavigate()
 
   function extractYoutubeVideoId(url : string) : string| null{
     const parsedUrl = new URL(url);
@@ -61,7 +88,7 @@ export default function BoardWrite() {
       if (link){
         const videoId: string | null = extractYoutubeVideoId(link);
         if (videoId) {
-          setUploadedVideo(videoId);
+          setboardVideoId(videoId);
           setIsUploaded(true);
           setVideoType("long");
         } else {
@@ -73,7 +100,7 @@ export default function BoardWrite() {
       if (link){
         const shortsId: string | null = extractShortsVideoId(link);
         if (shortsId){
-          setUploadedVideo(shortsId);
+          setboardVideoId(shortsId);
           setIsUploaded(true);
           setVideoType("shorts");
         }
@@ -89,7 +116,7 @@ export default function BoardWrite() {
   
 
   const handleTextareaChange =(event: ChangeEvent<HTMLTextAreaElement>) => {
-    setText(event.target.value);
+    setBoardText(event.target.value);
 
     setTextareaHeight("auto");
     if (textareaRef.current) {
@@ -99,24 +126,39 @@ export default function BoardWrite() {
 
   const handleReset = () => {
     setIsUploaded(false);
-    setUploadedVideo("");
+    setboardVideoId("");
     setVideoType("");
-    setText("");
+    setBoardText("");
+    setBoardTitle("");
     setTextareaHeight("auto")
   }
 
+  //백엔드 데이터베이스에 데이터 보내기 
+  //데이터베이스에 저장할 땐, boardNumber도 저장해야 될거같음.
   const handleSubmit = () => {
-    //게시물 업로드 버튼 구현
+    const boardDate = new Date().toISOString().substring(0, 10);
+    
+    const body = {boardTitle, boardVideoId, boardText, boardDate};
+    console.log(body);
+    
+    axios.post('apiEndpointURL - Board', body)
+      .then(response => {
+        alert('게시글이 등록되엇습니다.');
+        navigate('/board');
+      }).catch(error => {
+        alert("데이터 전송이 실패했습니다.");
+      })
   }
+
   const opts = {
     playerVars: {
-      autoplay: 1, // Disable autoplay to prevent the video from playing on load
-      modestbranding: 1, // Hide the Youtube logo as much as possible
-      controls: 0, // Hide all video controls
-      fs: 0, // Hide the full screen button
-      iv_load_policy: 3, // Hide video annotations by default
-      showinfo: 0, // Hide video title and uploader before video starts playing
-      rel: 0, // Do not show related videos when playback ends
+      autoplay: 0, 
+      modestbranding: 1, 
+      controls: 0, 
+      fs: 0, 
+      iv_load_policy: 3, 
+      showinfo: 0, 
+      rel: 0, 
     },
   };
 
@@ -125,7 +167,7 @@ export default function BoardWrite() {
       <div className='board-write-container'>
         <div className='board-write-box'>
           <div className='board-write-title-box'>
-            <input className='board-write-title-box-input' type='text' placeholder='제목을 작성해주세요' value={title} onChange={(e) => setTitle(e.target.value)}/>
+            <input className='board-write-title-box-input' type='text' placeholder='제목을 작성해주세요' value={boardTitle} onChange={(e) => setBoardTitle(e.target.value)}/>
           </div>
           <div className='divider'></div>
           <div className='youtube-add-button'>
@@ -137,9 +179,11 @@ export default function BoardWrite() {
                 src='../../../images/youtube.png'
                 onClick={handleYoutubeIconClick}
               />
-              ) : (
-                <StyledYoutube videoId={uploadedVideo} opts={opts} />
-              )}
+              ) : videoType === "long" ? (
+                <StyledYoutube videoId={boardVideoId} opts={opts} />
+              ) : videoType === "shorts" ? (
+                <StyledShorts videoId={boardVideoId} opts={opts}/>
+              ): null}
             </VideoWrapper>
             
             {!isUploaded? <div className='youtube-add-text'>버튼을 눌러 유튜브 영상을 업로드하세요!</div> : null}
@@ -151,7 +195,7 @@ export default function BoardWrite() {
               ref={textareaRef}
               className='board-write-content-textarea'
               placeholder='본문을 작성해주세요'
-              value={text}
+              value={boardText}
               onChange={handleTextareaChange}
               style={{height: textareaHeight}}     
             />
