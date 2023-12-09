@@ -18,7 +18,7 @@ export default function BoardItem({ boardListItem } : Props) {
 
   // event handler
   const onClickHandler = () => {
-    navigate(boardNumber)
+    navigate(`/board-detail/${boardNumber}`);
   }
 
   return (

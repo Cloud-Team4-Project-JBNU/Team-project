@@ -11,10 +11,9 @@ const Container = styled.div`
   gap: 30px;
 `
 
-function CommentPage(){
+function Comment(){
   return (
     <div>
-      <SideBar/>
       <Container>
         {commentListMock.map((commentListItem, index) => (
           <CommentItem key={index} commentListItem={commentListItem}/>
@@ -26,4 +25,4 @@ function CommentPage(){
   )
 }
 
-export default CommentPage;
+export default Comment;

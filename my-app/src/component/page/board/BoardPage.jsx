@@ -27,6 +27,7 @@ function BoardPage(){
       <ButtonContainer>
         <StyledButton onClick={()=> {navigate('/board-write')}}>게시물 작성하기</StyledButton>
         <StyledButton onClick={()=>window.location.reload}>새로고침</StyledButton>
+        {/* 새로고침은 데이터베이스에서 영상들 다시 받아오는 용도로 사용하기 */}
       </ButtonContainer>
       
     </div>
