@@ -1,68 +1,48 @@
 /*eslint-disable*/
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import YouTube from 'react-youtube';
 import styled from "styled-components";
 import getButtonData from './getButtonData';
-
+import shortsVideos from './shortsVideos';
 const Container = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-`
-
-const GenreButton = styled.button`
-  background-color: #e2e2e2;
-  border-radius: 8px;
-  width: 100%;
-  max-width: 500px;
-  height: 5vh;
-  margin: 0 auto;
-  font-size: 20px;
-  font-weight: 600;
-  &:hover{
-    cursor: pointer;
-    background-color: #e98a81; // 색감 수정
-  }
 `
 
 const ShortsContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  position: relative;
-  width: 800px;
-  margin: 20px auto 0 auto;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  overflow: hidden;
 `
 
 const VideoWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  height: 80vh;
-  max-width: 500px;
-  margin: auto;
-  background-color: #000;
-  border-radius: 8px;
-`;
+`
 
 const StyledYoutube = styled(YouTube)`
   iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 8px;
+    width: 450px;
+    height: 800px;
+    border-radius: 20px;
   }
 `;
+
+const ContentWrapper = styled.div`
+  display: flex;
+`
 
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
-  position: absolute;
-  bottom: 4px;
-  right: 20px;
+  justify-content: end;
+  margin: 0 auto;
 `
 
 const StyledButton = styled.img`
@@ -79,36 +59,44 @@ const StyledButton = styled.img`
 `
 
 function ShortsShow(){
-  const [videoId, setVideoId] = useState('6zcccp1p-Uc');
-  const buttons = [...getButtonData]; 
   
+  
+  //피셔 예이츠 알고리즘. https://taesung1993.tistory.com/54
+  function shuffle(array){
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  const videoIds = [...shortsVideos].map(video => video.videoId)
+  const shuffledVideoIds = shuffle(videoIds);
+  const [videoId, setVideoId] = useState(shuffledVideoIds[0])
+  const buttons = [...getButtonData]; 
+
   const updateVideoId = (newVideoId) => {
     setVideoId(newVideoId);
   }
 
-  const handleKeyDown = (event) => {
-    if (event.key === 'ArrowDown'){
-      updateVideoId('GYK__pd_ejA')
-    }
-  }
-
-  const handleWheel = (event) => {
+  const handleWheel = useCallback((event) => {
+    const currentIndex = shuffledVideoIds.indexOf(videoId);
     if (event.deltaY > 0) {
-      updateVideoId('GYK__pd_ejA')
+      const nextIndex = currentIndex + 1 < shuffledVideoIds.length ? currentIndex + 1 : 0;
+      updateVideoId(shuffledVideoIds[nextIndex]);
+    }else{
+      const prevIndex = currentIndex - 1 >= 0 ? currentIndex -1 : shuffledVideoIds.length - 1;
+      updateVideoId(shuffledVideoIds[prevIndex])
     }
-  }
+  }, [videoId, shuffledVideoIds]);
 
   useEffect(()=> {
-    // 마운트 될 때 이벤트 리스너 추가
-    window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('wheel', handleWheel);
-
-    // 언마운트 될 때 이벤트 리스너 제거
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('wheel', handleWheel);
     };
-  }, [handleKeyDown, handleWheel])
+    
+  }, [handleWheel]);
 
   const opts = {
     playerVars: {
@@ -127,24 +115,26 @@ function ShortsShow(){
   }
 
   return (
-    <Container>
-      <GenreButton>채팅방에 공유</GenreButton>
+    <Container>    
       <ShortsContainer>
-        <VideoWrapper>
-          <StyledYoutube 
-            videoId={videoId}
-            opts={opts}
-            onReady={onPlayerReady}
-          />
-        </VideoWrapper>
-        <ButtonContainer>
-          {buttons.map((item) => (
-            <StyledButton key={item.id}
-              src={item.src}
-              alt={item.alt}
+
+        <ContentWrapper>
+          <VideoWrapper>
+            <StyledYoutube 
+              videoId={videoId}
+              opts={opts}
+              onReady={onPlayerReady}
             />
-          ))}
-        </ButtonContainer>
+          </VideoWrapper>
+          <ButtonContainer>
+            {buttons.map((item) => (
+              <StyledButton key={item.id}
+                src={item.src}
+                alt={item.alt}
+              />
+            ))}
+          </ButtonContainer>
+        </ContentWrapper>
       </ShortsContainer>
     </Container>
     
