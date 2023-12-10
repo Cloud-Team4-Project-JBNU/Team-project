@@ -1,4 +1,4 @@
-#board-write-wrapper{
+#board-detail-wrapper{
   border-top: 1px solid rgba(0, 0, 0, 0.2);
 
   display: flex;
@@ -7,23 +7,28 @@
   background-color: rgba(0, 0, 0, 0.001);
 }
 
-.board-write-container{
+.board-detail-container{
   padding: 100px;
   width: 996px;
   min-height: 1000px;
 }
 
-.board-write-box{
+.board-detail-box{
   display: flex;
   flex-direction: column;
   gap: 40px;
 }
 
-.board-write-title-box{
+.board-detail-title-box{
   width: 100%;
 }
 
-.board-write-title-box-input{
+.board-detail-title-box, .board-detail-content-box{
+  align-items: flex-start;
+  text-align: left;
+}
+
+.board-detail-title{
   width: 100%;
   border: none;
   outline: none;
@@ -39,13 +44,13 @@
   width: 100%;
 }
 
-.board-write-content-box{
+.board-detail-content-box{
   width: 100%;
   display: flex;
   gap: 16px;
 }
 
-.board-write-content-textarea{
+.board-detail-content-textarea{
   flex: 1;
   border: none;
   outline: none;
@@ -57,7 +62,9 @@
   font-size: 18px;
   font-weight: 500;
   line-height: 150%;
-  min-height: 90px;
+  word-wrap: break-word;
+
+  white-space: normal;
 }
 
 .comment-write-content-box{
@@ -68,11 +75,11 @@
 
 .comment-write-content-textarea{
   flex: 1;
-  border: none;
+  border: 1px solid black;
   outline: none;
   background: none;
   resize: none;
-  overflow-y: auto;
+  overflow: hidden;
 
   color: rgba(0, 0, 0, 0.7);
   font-size: 18px;

@@ -7,12 +7,35 @@ import { useNavigate } from 'react-router-dom';
 import { commentListMock } from '../../../../mocks';
 import CommentItem from '../CommentListItem';
 import { CommentListItem } from '../../../../types/interface';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+
+interface RootState{
+  userLogin:{
+    isLogin: boolean | null;
+  }
+}
+
+interface BoardData {
+  title: string;
+  text: string;
+  videoId: string;
+  date: string;
+  writer: string;
+  videoType: string;
+}
 
 const VideoWrapper = styled.div`
   display: flex;
   justify-content: center;
-  //추가 css속성 넣기 
 `
+
+const CommentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+`
+
 
 const StyledYoutube = styled(YouTube)`
   display: block; 
@@ -56,31 +79,71 @@ const StyledButton = styled.button`
 `
 
 export default function BoardDetail() {
-  const [isUploaded, setIsUploaded] = useState(false);
-  const [uploadedVideo, setUploadedVideo] = useState<string>("");
-  const [videoType, setVideoType] = useState<string>(""); // 백엔드에서 데이터타입에 따라 유튜브 컴포넌트 크기 조절
-
-  const [title, setTitle] = useState<string>("");
-  const [comment, setComment] = useState<string>("");
-  const [commentAreaHeight, setcommentAreaHeight] = useState<string>("auto");
-  const commentAreaRef = useRef<HTMLTextAreaElement>(null);
-
+  const isLogin = useSelector((state: RootState) => state.userLogin.isLogin);
   const navigate = useNavigate();
 
+  const [boardData, setBoardData] = useState<BoardData>({
+    title: "tmp",
+    text: "tmp",
+    videoId: "",
+    date: "tmp",
+    writer: "tmp",
+    videoType: "",
+  })
 
+  useEffect(()=> {
+    const fetchBoardData =async () => {
+      try{
+        const response = await axios.get('boardData_endpoint_url');
+        //받아온 데이터 저장
+        setBoardData({
+          title: response.data.boardTitle,
+          text: response.data.boardText,
+          videoId: response.data.boardVideoId,
+          date: response.data.boardDate,
+          writer: response.data.boardWriter,
+          videoType: response.data.boardVideoType
+        })
+      }catch(error){
+        console.log("데이터 받아오기 실패");
+        
+        alert("데이터 받아오기에 실패했습니다.");
+      };
+    }
+    fetchBoardData();
+    
+  }, [])
 
+  const [commentText, setCommentText] = useState<string>("");
+  const [commentAreaHeight, setcommentAreaHeight] = useState<string>("auto");
+  const commentAreaRef = useRef<HTMLTextAreaElement>(null);
   const handleCommentAreaChange =(event: ChangeEvent<HTMLTextAreaElement>) => {
-    setComment(event.target.value);
-
+    setCommentText(event.target.value);
     setcommentAreaHeight("auto");
     if (commentAreaRef.current) {
       setcommentAreaHeight(`${commentAreaRef.current.scrollHeight}px`);
     }
   }
 
+  const handleCommentWriteButton = () => {
+    const commentDate = new Date().toISOString().substring(0, 10);
+    //로컬 스토리지에 저장된 이름정보 보내주기
+    const StoredUserInfo = localStorage.getItem('userInfo');
+    const userInfo = StoredUserInfo ? JSON.parse(StoredUserInfo) : {};
+    const commentWriter = userInfo.name;
+
+    const body = {commentWriter, commentText, commentDate};
+    axios.post('commentApiEndPointURL - comment', body)
+      .then(response => {
+        alert("댓글이 등록되었습니다.")
+      }).catch(error => {
+        alert("댓글 데이터 전송이 실패했습니다.");
+      })
+  }
+
   const opts = {
     playerVars: {
-      autoplay: 1, // Disable autoplay to prevent the video from playing on load
+      autoplay: 0, // Disable autoplay to prevent the video from playing on load
       modestbranding: 1, // Hide the Youtube logo as much as possible
       controls: 0, // Hide all video controls
       fs: 0, // Hide the full screen button
@@ -91,59 +154,66 @@ export default function BoardDetail() {
   };
 
   return (
-    <div id='board-write-wrapper'>
-      <div className='board-write-container'>
-        <div className='board-write-box'>
-          <div className='board-write-title-box'>
-            <input className='board-write-title-box-input' type='text' placeholder='제목을 작성해주세요' value={title} onChange={(e) => setTitle(e.target.value)}/>
+    <div id='board-detail-wrapper'>
+      <div className='board-detail-container'>
+        <div className='board-detail-box'>
+          <div className='board-detail-title-box'>
+            <div className='board-detail-title'>{boardData.title}</div>
+            <div className='board-detail-writer-box'>
+              <div className='board-detail-writer-box-writer-info'>{boardData.writer} · {boardData.date} </div>
+            </div>
           </div>
           <div className='divider'></div>
           <div className='youtube-add-button'>
             <VideoWrapper>
-              {!isUploaded ? (
-              <img
-                className='youtube-add-button-icon'
-                alt="youtube"
-                src='../../../images/youtube.png'
-              />
-              ) : (
-                <StyledYoutube videoId={uploadedVideo} opts={opts} />
+              {boardData.videoType === '' && (
+                <img
+                  className='youtube-add-button-icon'
+                  alt="youtube"
+                  src='../../../images/youtube.png'
+                />
               )}
-              {/* 비디오 작성할때 적어둔 videoId와 연관된 비디오 */}
+              {boardData.videoType === 'long' && (
+                <StyledYoutube videoId={boardData.videoId} opts={opts} />
+              )}
+              {boardData.videoType === 'shorts' && (
+                <StyledShorts videoId={boardData.videoId} opts={opts} />
+              )}
             </VideoWrapper>
           </div>
           <div className='divider'></div>
-          <div className='board-write-content-box'>
-            <textarea  
-              ref={commentAreaRef}
-              className='board-write-content-textarea'
-              // value={text} 이건 백엔드에서 받아온 본문글 써주기
-              style={{height: commentAreaHeight}}     
-            />
-
-            게시물 작성할때 적은 글
+          <div className='board-detail-content-box'>
+            <div className='board-detail-content-textarea'>{boardData.text}</div>
           </div>
+          <div className='divider'></div>
         </div>
         
+        <CommentContainer>
+          {commentListMock.map((commentListItem: CommentListItem, index: number) => (
+            <CommentItem key={index} commentListItem={commentListItem}/>
+          ))} 
+        </CommentContainer>
+        <div className='divider'></div> 
+
         <div className='comment-write-content-box'>
           <textarea  
             ref={commentAreaRef}
             className='comment-write-content-textarea'
-            value={comment}
+            value={commentText}
             style={{height: commentAreaHeight}}
             placeholder='댓글을 작성해주세요!'
             onChange={handleCommentAreaChange}
           />
 
         </div>
+        
         <ButtonContainer>
-          <StyledButton onClick={()=>{navigate('board')}}>댓글 작성하기</StyledButton>
+          <StyledButton onClick={handleCommentWriteButton}>댓글 작성하기</StyledButton>
         </ButtonContainer>
-        {commentListMock.map((commentListItem: CommentListItem, index: number) => (
-          <CommentItem key={index} commentListItem={commentListItem}/>
-        ))}         
+        {/* 작성 후 상태 업데이트 하는 로직 */}
       </div>
       
     </div>
   )
 }
+

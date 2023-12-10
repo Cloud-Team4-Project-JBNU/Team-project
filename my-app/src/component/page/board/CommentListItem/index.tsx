@@ -7,22 +7,21 @@ interface Props{
 }
 
 export default function CommentItem({commentListItem}: Props) {
-  const {nickname, profileImage, writeDatetime, content} = commentListItem;
-
+  const {commentWriter, commentText, commentDatetime, } = commentListItem;
 
   // render
   return (
     <div className="comment-list-item">
       <div className="comment-list-item-top">
         <div className="comment-list-item-profile-box">
-          <div className="comment-list-item-profile-image" style={{backgroundImage: `url(${profileImage ? profileImage : '../../../images/userInfo.png'})`}}></div>
+          <div className="comment-list-item-profile-image" style={{backgroundImage: `url(${'../../../images/userInfo.png'})`}}></div>
         </div>
-        <div className="comment-list-item-nickname">{nickname}</div>
+        <div className="comment-list-item-nickname">{commentWriter}</div>
         <div className="comment-list-item-divider">{`|`}</div>
-        <div className="comment-list-item-time">{writeDatetime}</div>
+        <div className="comment-list-item-time">{commentDatetime}</div>
       </div>
       <div className="comment-list-item-main">
-        <div className='comment-list-item-content'>{content}</div>
+        <div className='comment-list-item-content'>{commentText}</div>
       </div>
     </div>
   )

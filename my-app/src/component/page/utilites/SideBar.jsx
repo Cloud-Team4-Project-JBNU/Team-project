@@ -12,6 +12,8 @@ import styled, { keyframes } from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import getSideBarData from './getSideBarData';
+import { useDispatch } from 'react-redux';
+import { clearUserThunk } from '../../../store/store'; 
 
 const StyledNavbarBrand = styled(Navbar.Brand)`
   margin-right: auto;
@@ -47,6 +49,14 @@ const YoutubeLogo = styled.img`
 
 function SideBar() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(clearUserThunk());
+    alert("로그아웃이 완료되었습니다.");
+    navigate('/');
+  }
+
   const {navItems, dropdownNavItems} = getSideBarData(navigate);
   return (
     <>
@@ -120,7 +130,7 @@ function SideBar() {
             <NavBarIcon
               src="../../../images/logout.png" 
               alt="logout"
-              onClick={()=> {navigate('/')}} //세션 만료시키는 로직 추가해야함.
+              onClick={handleLogout} // 로그아웃 로직 구현
             />
             {/* <a href="https://www.flaticon.com/kr/free-icons/" title="떠나다 아이콘">떠나다 아이콘  제작자: Creatype - Flaticon</a> */}
           </Container>

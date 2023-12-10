@@ -58,9 +58,9 @@ const StyledButton = styled.button`
 
 export default function BoardWrite() {
   const [isUploaded, setIsUploaded] = useState(false);
-  const [videoType, setVideoType] = useState<string>("");
+  const [boardVideoType, setBoardVideoType] = useState<string>("");
 
-  const [boardVideoId, setboardVideoId] = useState<string>("");
+  const [boardVideoId, setBoardVideoId] = useState<string>("");
   const [boardTitle, setBoardTitle] = useState<string>("");
   const [boardText, setBoardText] = useState<string>("");
 
@@ -81,28 +81,28 @@ export default function BoardWrite() {
   }
 
   const handleYoutubeIconClick = () => {
-    const videoType = prompt("영상 타입을 선택해주세요 ('long' 또는 'shorts'):");
+    const boardVideoType = prompt("영상 타입을 선택해주세요 ('long' 또는 'shorts'):");
 
-    if (videoType === "long"){
+    if (boardVideoType === "long"){
       const link: string | null = prompt("Long Youtube 비디오 링크를 입력해주세요")
       if (link){
         const videoId: string | null = extractYoutubeVideoId(link);
         if (videoId) {
-          setboardVideoId(videoId);
+          setBoardVideoId(videoId);
           setIsUploaded(true);
-          setVideoType("long");
+          setBoardVideoType("long");
         } else {
           alert("유효하지 않은 YouTube 링크입니다.");
         }
       }
-    }else if (videoType === "shorts"){
+    }else if (boardVideoType === "shorts"){
       const link: string | null = prompt("YouTube Shorts 링크를 입력해주세요: ");
       if (link){
         const shortsId: string | null = extractShortsVideoId(link);
         if (shortsId){
-          setboardVideoId(shortsId);
+          setBoardVideoId(shortsId);
           setIsUploaded(true);
-          setVideoType("shorts");
+          setBoardVideoType("shorts");
         }
         else{
           alert("유효하지 않은 Youtube Shorts 링크입니다.");
@@ -126,20 +126,22 @@ export default function BoardWrite() {
 
   const handleReset = () => {
     setIsUploaded(false);
-    setboardVideoId("");
-    setVideoType("");
+    setBoardVideoId("");
+    setBoardVideoType("");
     setBoardText("");
     setBoardTitle("");
     setTextareaHeight("auto")
   }
 
-  //백엔드 데이터베이스에 데이터 보내기 
-  //데이터베이스에 저장할 땐, boardNumber도 저장해야 될거같음.
+
   const handleSubmit = () => {
     const boardDate = new Date().toISOString().substring(0, 10);
     
-    const body = {boardTitle, boardVideoId, boardText, boardDate};
-    console.log(body);
+    //로컬 스토리지에 저장된 이름정보 보내주기
+    const StoredUserInfo = localStorage.getItem('userInfo');
+    const userInfo = StoredUserInfo ? JSON.parse(StoredUserInfo) : {};
+    const boardWriter = userInfo.name;
+    const body = {boardTitle, boardVideoId, boardText, boardDate, boardWriter, boardVideoType};
     
     axios.post('apiEndpointURL - Board', body)
       .then(response => {
@@ -179,9 +181,9 @@ export default function BoardWrite() {
                 src='../../../images/youtube.png'
                 onClick={handleYoutubeIconClick}
               />
-              ) : videoType === "long" ? (
+              ) : boardVideoType === "long" ? (
                 <StyledYoutube videoId={boardVideoId} opts={opts} />
-              ) : videoType === "shorts" ? (
+              ) : boardVideoType === "shorts" ? (
                 <StyledShorts videoId={boardVideoId} opts={opts}/>
               ): null}
             </VideoWrapper>

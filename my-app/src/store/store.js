@@ -7,7 +7,6 @@ const userLogin = createSlice({
   initialState: {
     name: "",
     id: "",
-    isLoading: false,
     isLogin: null,
   },
   reducers : {
@@ -25,17 +24,29 @@ const userLogin = createSlice({
 });
 export const { loginUser, clearUser} = userLogin.actions;
 
-// const boardInfo = createSlice({
-  
-// })
-//게시판 정보 백에서 받아올때 전역변수 느낌으로 관리
+const preloadedState = {
+  userLogin: {
+    ...userLogin.initialState,
+    ...(localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {}),
+  }
+};
 
 const store = configureStore({
   reducer: {
     userLogin : userLogin.reducer,
-  }
-})
+  },
+  preloadedState,
+});
 
+export const loginUserThunk = (userInfo) => (dispatch) => {
+  dispatch(loginUser(userInfo));
+  localStorage.setItem('userInfo', JSON.stringify(userInfo));
+};
+
+export const clearUserThunk = () => (dispatch) => {
+  dispatch(clearUser());
+  localStorage.removeItem('userInfo');
+};
 
 export default store;
 

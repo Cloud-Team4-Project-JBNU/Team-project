@@ -1,6 +1,5 @@
 /*eslint-disable*/
 import React from 'react';
-import styled from "styled-components";
 import BoardDetail from './BoardDetail';
 import SideBar from '../utilites/SideBar';
 

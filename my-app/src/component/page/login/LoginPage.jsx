@@ -1,7 +1,7 @@
 /*eslint-disable*/
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
-import { loginUser } from '../../../store/store';
+import { loginUser, loginUserThunk } from '../../../store/store';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
@@ -57,38 +57,38 @@ function LoginPage(){
 
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
 
   const checkCredentials = async (email, password) => {
-    //API 호출 시뮬레이션을 위한 타임아웃 사용
+    
     const body = { email, password }
     try{
       const response = await axios.post('/login_database_endpoint_url', body);
-      //백엔드에서 성공 응답을 받으면 true를 리턴하게 함.
+      //백엔드에서 성공 사용자에 대한 데이터를 돌려줘야함. 아이디랑 이름을 돌려주기
       if (response.status === 200) {
-        return true;
+        return response.data;
       }
     }catch(error){
       console.log("Login error: ", error);
       alert("loginerror");
-      return false;
+      return null;
     }
   };
 
   const handleLogin = async(e) => {
     e.preventDefault();
-    setLoading(true);
     
-    const isAuthenticated = await checkCredentials(id, password);
-    if (isAuthenticated){
+    const userInfo = await checkCredentials(id, password);
+    if (userInfo){
       setMsg("로그인 성공!")
       alert(msg);
-      dispatch(loginUser({ name: user.name, id: user.email })); 
+      //데이터베이스에서 회원가입한 사람 이름을 돌려줘야함. 
+      dispatch(loginUserThunk(userInfo)); // 로그인 성공하면 이메일, 이름을 로컬스토리지에 저장
       navigate('/home'); 
       // 로그인 성공하면 리덕스 상태 업데이트 후 home으로 이동
     }else{
       setMsg("로그인 정보가 올바르지 않습니다.");
+      alert(msg);
       setId('');
       setPassword('');
     }
