@@ -1,9 +1,10 @@
 /*eslint-disable*/
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useMemo} from 'react';
 import YouTube from 'react-youtube';
 import styled from "styled-components";
 import getButtonData from './getButtonData';
 import shortsVideos from './shortsVideos';
+
 const Container = styled.div`
   position: relative;
   display: flex;
@@ -45,12 +46,17 @@ const ButtonContainer = styled.div`
   margin: 0 auto;
 `
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
 const StyledButton = styled.img`
   background-color: #e2e2e2;
-  margin: 10px;
+  margin: 15px;
   border-radius: 50%;
-  height: 80px;
-  width: 80px;
+  height: 60px;
+  width: 60px;
   padding: 10px;
   &:hover{
     cursor: pointer;
@@ -58,55 +64,50 @@ const StyledButton = styled.img`
   }
 `
 
-function ShortsShow(){
-  
-  
-  //피셔 예이츠 알고리즘. https://taesung1993.tistory.com/54
-  function shuffle(array){
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
+  return array;
+}
 
-  const videoIds = [...shortsVideos].map(video => video.videoId)
-  const shuffledVideoIds = shuffle(videoIds);
+function ShortsShow(){
+  //처음 로드하고 랜덤하게 섞은 배열을 만들기
+  const shuffledVideoIds = useMemo(() => shuffleArray([...shortsVideos]).map(video => video.videoId), []);
   const [videoId, setVideoId] = useState(shuffledVideoIds[0])
   const buttons = [...getButtonData]; 
 
-  const updateVideoId = (newVideoId) => {
-    setVideoId(newVideoId);
-  }
 
-  const handleWheel = useCallback((event) => {
-    const currentIndex = shuffledVideoIds.indexOf(videoId);
-    if (event.deltaY > 0) {
-      const nextIndex = currentIndex + 1 < shuffledVideoIds.length ? currentIndex + 1 : 0;
-      updateVideoId(shuffledVideoIds[nextIndex]);
-    }else{
-      const prevIndex = currentIndex - 1 >= 0 ? currentIndex -1 : shuffledVideoIds.length - 1;
-      updateVideoId(shuffledVideoIds[prevIndex])
-    }
-  }, [videoId, shuffledVideoIds]);
-
-  useEffect(()=> {
+  useEffect(() => {
+    const handleWheel = (event) => {
+      const currentIndex = shuffledVideoIds.indexOf(videoId);
+      console.log(currentIndex);
+      const nextIndex = event.deltaY > 0
+        ? (currentIndex + 1) % shuffledVideoIds.length 
+        : currentIndex - 1 >= 0
+          ? currentIndex - 1
+          : shuffledVideoIds.length - 1; 
+      setVideoId(shuffledVideoIds[nextIndex]);
+      console.log(videoId);
+    };
+  
     window.addEventListener('wheel', handleWheel);
     return () => {
       window.removeEventListener('wheel', handleWheel);
     };
-    
-  }, [handleWheel]);
+  }, [videoId, shuffledVideoIds]); 
+  
 
   const opts = {
     playerVars: {
-      autoplay: 1, // Disable autoplay to prevent the video from playing on load
-      modestbranding: 1, // Hide the Youtube logo as much as possible
-      controls: 0, // Hide all video controls
-      fs: 0, // Hide the full screen button
-      iv_load_policy: 3, // Hide video annotations by default
-      showinfo: 0, // Hide video title and uploader before video starts playing
-      rel: 0, // Do not show related videos when playback ends
+      autoplay: 1, 
+      modestbranding: 1, 
+      controls: 0, 
+      fs: 0, 
+      iv_load_policy: 3, 
+      showinfo: 0, 
+      rel: 0, 
     },
   };
 
@@ -128,10 +129,14 @@ function ShortsShow(){
           </VideoWrapper>
           <ButtonContainer>
             {buttons.map((item) => (
-              <StyledButton key={item.id}
-                src={item.src}
-                alt={item.alt}
-              />
+              <ButtonWrapper key={item.id}>
+                <StyledButton 
+                  src={item.src}
+                  alt={item.alt}
+                />
+                {item.content}
+              </ButtonWrapper>
+              
             ))}
           </ButtonContainer>
         </ContentWrapper>

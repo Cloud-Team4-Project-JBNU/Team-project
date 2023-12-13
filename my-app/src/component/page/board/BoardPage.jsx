@@ -15,10 +15,20 @@ const ButtonContainer = styled.div`
 const StyledButton = styled.button`
   margin: 10px;
   height: 40px;
-  margin: 10px;
-  height: 40px;
+  padding: 0 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
   opacity: ${(props) => (props.disabled ? 0.3 : 1)};
   pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')}; 
+`
+
+const RefreshImage = styled.img`
+  width: 24px;
+  height: 24px;
 `
 
 function BoardPage(){
@@ -37,7 +47,9 @@ function BoardPage(){
         >
           게시물 작성하기
         </StyledButton>
-        <StyledButton onClick={()=>window.location.reload}>새로고침</StyledButton>
+        <StyledButton onClick={()=>window.location.reload}>
+        <RefreshImage src="../../images/refresh.png" alt="Refresh" />
+        </StyledButton>
         {/* 새로고침은 데이터베이스에서 영상들 다시 받아오는 기능으로 구현 */}
       </ButtonContainer>
       

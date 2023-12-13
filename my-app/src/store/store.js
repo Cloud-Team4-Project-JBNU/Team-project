@@ -38,6 +38,7 @@ const store = configureStore({
   preloadedState,
 });
 
+
 export const loginUserThunk = (userInfo) => (dispatch) => {
   dispatch(loginUser(userInfo));
   localStorage.setItem('userInfo', JSON.stringify(userInfo));

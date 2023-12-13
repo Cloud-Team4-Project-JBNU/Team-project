@@ -49,6 +49,14 @@ const StyledButton = styled.button`
 
 `
 
+const GuestLoginButton = styled.div`
+  background-color: white;
+  color: black;
+  padding: 10px 20px;
+  border: 2px solid black;
+  margin: 10px;
+  font-size: 25px;
+`
 
 function LoginPage(){
   let user = useSelector((state) => state.user)
@@ -112,16 +120,14 @@ function LoginPage(){
           placeholder="비밀번호를 입력하세요"
         />
         <Button type="submit">로그인</Button>
+        <GuestLoginButton onClick={()=>{navigate("/home")}}>게스트 로그인</GuestLoginButton>
       </LoginForm >
       <p>
         계정이 없으신가요? <StyledButton onClick={()=>{navigate('/signup')}}>회원가입하기</StyledButton>
       </p>
       {(msg.length> 5) ? msg: ''}
-      <button onClick={()=>{navigate("/home")}}>temporary</button>
     </LoginContainer>
   );
 }
 
 export default LoginPage;
-//로그인을 누르면 로컬 스토리지에 유저정보를 넣어놓고 그 유저에 대한 정보를 넣고 쓰고 그런식으로 
-//구현해야할듯. 이후 내용은 추가구현 

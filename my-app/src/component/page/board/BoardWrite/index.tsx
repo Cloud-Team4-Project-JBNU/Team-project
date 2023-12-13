@@ -6,6 +6,8 @@ import YouTube from "react-youtube";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+
+
 const VideoWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -136,18 +138,16 @@ export default function BoardWrite() {
 
   const handleSubmit = () => {
     const boardDate = new Date().toISOString().substring(0, 10);
-    
-    //로컬 스토리지에 저장된 이름정보 보내주기
-    const StoredUserInfo = localStorage.getItem('userInfo');
-    const userInfo = StoredUserInfo ? JSON.parse(StoredUserInfo) : {};
-    const boardWriter = userInfo.name;
-    const body = {boardTitle, boardVideoId, boardText, boardDate, boardWriter, boardVideoType};
+    const boardVideoInfo = boardVideoId + ", " +  boardVideoType;
+    const body = { boardTitle, boardVideoInfo, boardText, boardDate, };
     
     axios.post('apiEndpointURL - Board', body)
       .then(response => {
         alert('게시글이 등록되엇습니다.');
         navigate('/board');
       }).catch(error => {
+        console.log(body);
+
         alert("데이터 전송이 실패했습니다.");
       })
   }

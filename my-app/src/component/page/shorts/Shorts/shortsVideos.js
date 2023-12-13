@@ -45,15 +45,6 @@ const shortsVideos = [
     videoId: 'm05-9aeXzEY'
   },
   {
-    videoId: 'S2JHLt-Y3d0',
-  },
-  {
-    videoId: 'mhwO5YWpOIw',
-  },
-  {
-    videoId: '8b7pOgCDlAI'
-  },
-  {
     videoId: 'OnMX7ywFzBc'
   },
   {
