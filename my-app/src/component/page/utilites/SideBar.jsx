@@ -14,6 +14,7 @@ import SearchBar from './SearchBar';
 import getSideBarData from './getSideBarData';
 import { useDispatch } from 'react-redux';
 import { clearUserThunk } from '../../../store/store'; 
+import { useSelector } from 'react-redux';
 
 const StyledNavbarBrand = styled(Navbar.Brand)`
   margin-right: auto;
@@ -50,11 +51,18 @@ const YoutubeLogo = styled.img`
 function SideBar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isLogin = useSelector(state => state.userLogin.isLogin)
 
   const handleLogout = () => {
     dispatch(clearUserThunk());
     alert("로그아웃이 완료되었습니다.");
     navigate('/');
+  }
+
+  const handleUserInfo = () => {
+    if(!isLogin){
+      navigate('/');
+    }
   }
 
   const {navItems, dropdownNavItems} = getSideBarData(navigate);
@@ -124,7 +132,7 @@ function SideBar() {
             <NavBarIcon
               src="../../../images/userInfo.png"
               alt="userinfo"
-              onClick={()=> {}}
+              onClick={handleUserInfo}
             />
             {/* <a href="https://www.flaticon.com/kr/free-icons/" title="사람 아이콘">사람 아이콘  제작자: Febrian Hidayat - Flaticon</a> */}
             <NavBarIcon

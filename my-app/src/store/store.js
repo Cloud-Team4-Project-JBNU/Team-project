@@ -15,13 +15,14 @@ const userLogin = createSlice({
       state.id = action.payload.id;
       state.isLogin = true;
     },
-    clearUser: (state, action) => {
+    clearUser: (state) => {
       state.name = "";
       state.id = "";
       state.isLogin = false;
     },
   },
 });
+
 export const { loginUser, clearUser} = userLogin.actions;
 
 const preloadedState = {
@@ -30,14 +31,6 @@ const preloadedState = {
     ...(localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {}),
   }
 };
-
-const store = configureStore({
-  reducer: {
-    userLogin : userLogin.reducer,
-  },
-  preloadedState,
-});
-
 
 export const loginUserThunk = (userInfo) => (dispatch) => {
   dispatch(loginUser(userInfo));
@@ -48,6 +41,35 @@ export const clearUserThunk = () => (dispatch) => {
   dispatch(clearUser());
   localStorage.removeItem('userInfo');
 };
+
+const sharedVideo = createSlice({
+  name: 'sharedVideo' ,
+  initialState: {
+    videoId: "",
+    videoType: "shorts"
+  },
+  reducers: {
+    setSharedVideoId: (state, action) => {
+      state.videoId = action.payload;
+    },
+    clearSharedVideoId: (state) => {
+      state.videoId = ""
+    }
+  }
+})
+
+export const { setSharedVideoId, clearSharedVideoId } = sharedVideo.actions
+
+const store = configureStore({
+  reducer: {
+    userLogin : userLogin.reducer,
+    sharedVideo: sharedVideo.reducer,
+  },
+  preloadedState,
+});
+
+
+
 
 export default store;
 

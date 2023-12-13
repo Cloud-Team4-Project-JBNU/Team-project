@@ -56,6 +56,10 @@ const GuestLoginButton = styled.div`
   border: 2px solid black;
   margin: 10px;
   font-size: 25px;
+  &:hover{
+    background-color: #f2f2f2;
+    cursor: pointer;
+  }
 `
 
 function LoginPage(){
@@ -63,7 +67,7 @@ function LoginPage(){
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [id, setId] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [msg, setMsg] = useState("");
 
@@ -71,7 +75,7 @@ function LoginPage(){
     
     const body = { email, password }
     try{
-      const response = await axios.post('/login_database_endpoint_url', body);
+      const response = await axios.post('http://localhost:4002/api/auth/signIn', body);
       //백엔드에서 성공 사용자에 대한 데이터를 돌려줘야함. 아이디랑 이름을 돌려주기
       if (response.status === 200) {
         return response.data;
@@ -86,7 +90,7 @@ function LoginPage(){
   const handleLogin = async(e) => {
     e.preventDefault();
     
-    const userInfo = await checkCredentials(id, password);
+    const userInfo = await checkCredentials(email, password);
     if (userInfo){
       setMsg("로그인 성공!")
       alert(msg);
@@ -109,8 +113,8 @@ function LoginPage(){
       <LoginForm onSubmit={handleLogin}>
         <Input 
           type="email"
-          value={id}
-          onChange={(e)=>setId(e.target.value)}
+          value={email}
+          onChange={(e)=>setEmail(e.target.value)}
           placeholder="아이디를 입력하세요" 
         />
         <Input

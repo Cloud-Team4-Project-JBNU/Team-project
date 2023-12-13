@@ -67,8 +67,8 @@ function SignupPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [startDate, setStartDate] = useState(new Date());
+  const [passwordCheck, setPasswordCheck] = useState('');
+  const [birth, setBirth] = useState(new Date());
   const [phoneNumber, setPhoneNumber] = useState('')
   const [gender, setGender] = useState('');
   
@@ -84,16 +84,14 @@ function SignupPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(startDate, typeof startDate);
-    // const birthday = String(startDate).split(" ");
-    // console.log(birthday); // 3: year 2: day 1: month 0: 요일
+    
     //필드 공백 여부 확인
-    if (!name || !email || !password || !confirmPassword || !startDate || !phoneNumber || !gender){
+    if (!name || !email || !password || !passwordCheck || !birth || !phoneNumber || !gender){
       alert('모든 정보를 다 입력해주세요');
       return;
     }
     //비밀번호와 비밀번호 확인이 일치하는지 확인
-    if (password !== confirmPassword) {
+    if (password !== passwordCheck) {
       alert('비밀번호가 일치하지 않습니다.');
       return;
     }
@@ -117,8 +115,8 @@ function SignupPage() {
     }
 
     // 서버에 회원가입 요청을 보내는 로직
-    const body = { name, email, password, startDate, phoneNumber, gender }
-    axios.post('/signup_endpoint', body)
+    const body = { name, email, password, birth, phoneNumber, gender }
+    axios.post('http://localhost:4002/api/auth/signup', body)
       .then(response => {
         // 성공 처리 로직 구현하기
         navigate('/');
@@ -160,7 +158,7 @@ function SignupPage() {
         <Input
           type="password"
           value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          onChange={(e) => setPasswordCheck(e.target.value)}
           placeholder="비밀번호 확인"
         />
         <Infotitle>휴대폰 번호</Infotitle>
@@ -172,8 +170,8 @@ function SignupPage() {
         />
         <Infotitle>생년월일</Infotitle>
         <DatePickerUI 
-          selected={startDate}
-          onChange={(date)=>setStartDate(date)}
+          selected={birth}
+          onChange={(date)=>setBirth(date)}
         />
         <Infotitle>성별</Infotitle>
         <GenderSelect value={gender} onChange={(e) => setGender(e.target.value)}>

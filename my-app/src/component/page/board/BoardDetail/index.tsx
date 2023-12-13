@@ -143,13 +143,13 @@ export default function BoardDetail() {
 
   const opts = {
     playerVars: {
-      autoplay: 0, // Disable autoplay to prevent the video from playing on load
-      modestbranding: 1, // Hide the Youtube logo as much as possible
-      controls: 0, // Hide all video controls
-      fs: 0, // Hide the full screen button
-      iv_load_policy: 3, // Hide video annotations by default
-      showinfo: 0, // Hide video title and uploader before video starts playing
-      rel: 0, // Do not show related videos when playback ends
+      autoplay: 0, 
+      modestbranding: 1, 
+      controls: 0, 
+      fs: 0, 
+      iv_load_policy: 3, 
+      showinfo: 0, 
+      rel: 0, 
     },
   };
 

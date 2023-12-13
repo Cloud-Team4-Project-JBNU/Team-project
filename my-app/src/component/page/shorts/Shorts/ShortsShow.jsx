@@ -4,6 +4,10 @@ import YouTube from 'react-youtube';
 import styled from "styled-components";
 import getButtonData from './getButtonData';
 import shortsVideos from './shortsVideos';
+import { throttle } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSharedVideoId } from '../../../../store/store';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   position: relative;
@@ -78,9 +82,14 @@ function ShortsShow(){
   const [videoId, setVideoId] = useState(shuffledVideoIds[0])
   const buttons = [...getButtonData]; 
 
+  const dispatch = useDispatch();
+  const currentVideoId = useSelector((state) => state.sharedVideo.videoId);
+  const isLogin = useSelector((state)=> state.userLogin.isLogin)
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const handleWheel = (event) => {
+    const handleWheel = throttle((event) => {
       const currentIndex = shuffledVideoIds.indexOf(videoId);
       console.log(currentIndex);
       const nextIndex = event.deltaY > 0
@@ -90,7 +99,7 @@ function ShortsShow(){
           : shuffledVideoIds.length - 1; 
       setVideoId(shuffledVideoIds[nextIndex]);
       console.log(videoId);
-    };
+    }, 500);
   
     window.addEventListener('wheel', handleWheel);
     return () => {
@@ -98,6 +107,19 @@ function ShortsShow(){
     };
   }, [videoId, shuffledVideoIds]); 
   
+  const handleButtonClick = (item) => {
+    // if (!isLogin){
+    //   alert("로그인하지 않으면 공유할 수 없습니다.");
+    //   return;
+    // }
+    
+    if (item.content === '공유'){
+      dispatch(setSharedVideoId(videoId));
+      alert("동영상을 공유합니다. 게시물 작성페이지로 이동합니다.");
+      navigate("/board-write");
+    }
+    
+  }
 
   const opts = {
     playerVars: {
@@ -133,6 +155,7 @@ function ShortsShow(){
                 <StyledButton 
                   src={item.src}
                   alt={item.alt}
+                  onClick={() => handleButtonClick(item)}
                 />
                 {item.content}
               </ButtonWrapper>

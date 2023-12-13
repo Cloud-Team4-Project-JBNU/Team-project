@@ -5,8 +5,22 @@ import styled from 'styled-components';
 import YouTube from "react-youtube";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { log } from 'console';
 
+interface SharedVideoState {
+  sharedVideo: {
+    videoId: string;
+    videoType: string;
+  }
+  
+}
 
+interface RootState{
+  userLogin:{
+    isLogin: boolean | null;
+  }
+}
 
 const VideoWrapper = styled.div`
   display: flex;
@@ -69,12 +83,12 @@ export default function BoardWrite() {
   const [textareaHeight, setTextareaHeight] = useState<string>("auto");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const sharedVideo = useSelector((state: SharedVideoState) => state.sharedVideo);
 
   function extractYoutubeVideoId(url : string) : string| null{
     const parsedUrl = new URL(url);
     return parsedUrl.searchParams.get('v');
-    
   }
 
   function extractShortsVideoId(url : string): string | null{
@@ -141,9 +155,9 @@ export default function BoardWrite() {
     const boardVideoInfo = boardVideoId + ", " +  boardVideoType;
     const body = { boardTitle, boardVideoInfo, boardText, boardDate, };
     
-    axios.post('apiEndpointURL - Board', body)
+    axios.post('http://localhost:4002/api/board', body)
       .then(response => {
-        alert('게시글이 등록되엇습니다.');
+        alert('게시글이 등록되었습니다.');
         navigate('/board');
       }).catch(error => {
         console.log(body);
@@ -163,6 +177,17 @@ export default function BoardWrite() {
       rel: 0, 
     },
   };
+
+  useEffect(()=> {
+    const sharedVideoId = sharedVideo.videoId;
+    const sharedVideoType = sharedVideo.videoType;
+    console.log(sharedVideoId, " ", sharedVideoType);
+    if (sharedVideoId.length > 0){
+      setIsUploaded(true);
+      setBoardVideoId(sharedVideoId);
+      setBoardVideoType(sharedVideoType);
+    }
+  }, [])
 
   return (
     <div id='board-write-wrapper'>
