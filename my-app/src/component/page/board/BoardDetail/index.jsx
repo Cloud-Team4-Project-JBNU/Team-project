@@ -72,22 +72,21 @@ export default function BoardDetail() {
   const location = useLocation();
 
   const [boardData, setBoardData] = useState({
-    boardTitle: "",
-    boardText: "",
-    boardVideoId: "",
-    boardDate: "",
-    boardWriter: "Jamie",
-    boardVideoType: "",
+    title: "",
+    text: "",
+    date: "",
+    videoId: "",
+    videoType: "",
   })
 
   useEffect(()=> {
     if (location.state){
-      const { boardDate, boardTitle, boardText, boardVideoId, boardVideoType} = location;
+      const { boardTitle, boardText, boardDate, boardVideoId, boardVideoType} = location;
       setBoardData({
         boardTitle,
         boardText,
-        boardVideoId,
         boardDate,
+        boardVideoId,
         boardVideoType,
       });
     }else{
@@ -151,7 +150,7 @@ export default function BoardDetail() {
           <div className='board-detail-title-box'>
             <div className='board-detail-title'>{boardData.title}</div>
             <div className='board-detail-writer-box'>
-              <div className='board-detail-writer-box-writer-info'>{boardData.writer} · {boardData.date} </div>
+              <div className='board-detail-writer-box-writer-info'>Jamie · {boardData.date} </div>
             </div>
           </div>
           <div className='divider'></div>
