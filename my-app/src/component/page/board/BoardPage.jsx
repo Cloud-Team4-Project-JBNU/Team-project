@@ -6,6 +6,7 @@ import { latestBoardListMock } from '../../../mocks'
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -38,9 +39,22 @@ function BoardPage(){
 
   const loadData = async () => {
     try{
-      const response = await Axios.get('backend endpointURL');
+      const response = await axios.get('backend endpointURL');
       console.log(response.data);
-      setBoardList(response.data);
+      const updatedBoardList = response.data.map(board => {
+        const [videoId, videoType] = board.videoInfo.split(', ');
+
+        return {
+          number : board.number,
+          title : board.title,
+          text: board.text,
+          date: board.date,
+          videoId: videoId.trim(),
+          videoType: videoId.trim(),
+        }
+      })
+
+      setBoardList(updatedBoardList)
     }catch(error){
       console.error('Error : ', error);
     }

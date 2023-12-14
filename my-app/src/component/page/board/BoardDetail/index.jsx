@@ -6,11 +6,8 @@ import YouTube from "react-youtube";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { commentListMock } from '../../../../mocks';
 import CommentItem from '../CommentListItem';
-import { CommentListItem } from '../../../../types/interface';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import NavBarIcon from '../../utilites/NavBarIcon';
-
 
 
 const VideoWrapper = styled.div`
