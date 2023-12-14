@@ -3,27 +3,15 @@ import React, { useState, useRef, ChangeEvent, useEffect } from 'react'
 import "./style.css";
 import styled from 'styled-components';
 import YouTube from "react-youtube";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { commentListMock } from '../../../../mocks';
 import CommentItem from '../CommentListItem';
 import { CommentListItem } from '../../../../types/interface';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import NavBarIcon from '../../utilites/NavBarIcon';
 
-interface RootState{
-  userLogin:{
-    isLogin: boolean | null;
-  }
-}
 
-interface BoardData {
-  title: string;
-  text: string;
-  videoId: string;
-  date: string;
-  writer: string;
-  videoType: string;
-}
 
 const VideoWrapper = styled.div`
   display: flex;
@@ -79,45 +67,43 @@ const StyledButton = styled.button`
 `
 
 export default function BoardDetail() {
-  const isLogin = useSelector((state: RootState) => state.userLogin.isLogin);
+  const isLogin = useSelector((state) => state.userLogin.isLogin);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [boardData, setBoardData] = useState<BoardData>({
-    title: "tmp",
-    text: "tmp",
-    videoId: "",
-    date: "tmp",
-    writer: "tmp",
-    videoType: "",
+  const [boardData, setBoardData] = useState({
+    boardTitle: "",
+    boardText: "",
+    boardVideoId: "",
+    boardDate: "",
+    boardWriter: "Jamie",
+    boardVideoType: "",
   })
 
   useEffect(()=> {
-    const fetchBoardData =async () => {
-      try{
-        const response = await axios.get('boardData_endpoint_url');
-        //받아온 데이터 저장
-        setBoardData({
-          title: response.data.boardTitle,
-          text: response.data.boardText,
-          videoId: response.data.boardVideoId,
-          date: response.data.boardDate,
-          writer: response.data.boardWriter,
-          videoType: response.data.boardVideoType
-        })
-      }catch(error){
-        console.log("데이터 받아오기 실패");
-        
-        alert("데이터 받아오기에 실패했습니다.");
-      };
+    if (location.state){
+      const { boardDate, boardTitle, boardText, boardVideoId, boardVideoType} = location;
+      setBoardData({
+        boardTitle,
+        boardText,
+        boardVideoId,
+        boardDate,
+        boardVideoType,
+      });
+    }else{
+      console.log("no data passed from boardItem");
     }
-    fetchBoardData();
-    
-  }, [])
+  }, [location.state])
 
-  const [commentText, setCommentText] = useState<string>("");
-  const [commentAreaHeight, setcommentAreaHeight] = useState<string>("auto");
-  const commentAreaRef = useRef<HTMLTextAreaElement>(null);
-  const handleCommentAreaChange =(event: ChangeEvent<HTMLTextAreaElement>) => {
+
+
+
+
+
+  const [commentText, setCommentText] = useState("");
+  const [commentAreaHeight, setcommentAreaHeight] = useState("auto");
+  const commentAreaRef = useRef(null);
+  const handleCommentAreaChange =(event) => {
     setCommentText(event.target.value);
     setcommentAreaHeight("auto");
     if (commentAreaRef.current) {
@@ -140,6 +126,11 @@ export default function BoardDetail() {
         alert("댓글 데이터 전송이 실패했습니다.");
       })
   }
+
+
+
+
+
 
   const opts = {
     playerVars: {
@@ -189,7 +180,7 @@ export default function BoardDetail() {
         </div>
         
         <CommentContainer>
-          {commentListMock.map((commentListItem: CommentListItem, index: number) => (
+          {commentListMock.map((commentListItem, index) => (
             <CommentItem key={index} commentListItem={commentListItem}/>
           ))} 
         </CommentContainer>

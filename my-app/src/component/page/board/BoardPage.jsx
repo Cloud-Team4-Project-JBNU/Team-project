@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SideBar from '../utilites/SideBar';
 import BoardItem from './BoardListItem'
 import { latestBoardListMock } from '../../../mocks'
@@ -32,14 +32,40 @@ const RefreshImage = styled.img`
 `
 
 function BoardPage(){
+  const [boardList, setBoardList] = useState([]);
   const navigate = useNavigate();
   const isLogin = useSelector((state) => state.userLogin.isLogin);
+
+  const loadData = async () => {
+    try{
+      const response = await Axios.get('backend endpointURL');
+      console.log(response.data);
+      setBoardList(response.data);
+    }catch(error){
+      console.error('Error : ', error);
+    }
+  }
+
+  useEffect(()=>{
+    loadData();
+  }, [])
+
   return (
     <div>
       <SideBar/>
-      {latestBoardListMock.map(boardListItem => (
-        <BoardItem key={boardListItem.boardNumber} boardListItem={boardListItem} />
-      ))}
+      {
+        boardList.map(board => (
+          <BoardItem 
+            key={board.boardNumber}
+            boardNumber={board.boardNumber}
+            boardTitle={board.boardTitle}
+            boardVideoId={board.boardVideoId}
+            boardVideoInfo={board.boardVideoInfo}
+            boardDate={board.boardDate}
+            boardText={board.boardText}
+          />
+        ))
+      }
       <ButtonContainer>
         <StyledButton 
           onClick={() => navigate('/board-write')}
@@ -47,7 +73,7 @@ function BoardPage(){
         >
           게시물 작성하기
         </StyledButton>
-        <StyledButton onClick={()=>window.location.reload}>
+        <StyledButton onClick={loadData}>
         <RefreshImage src="../../images/refresh.png" alt="Refresh" />
         </StyledButton>
         {/* 새로고침은 데이터베이스에서 영상들 다시 받아오는 기능으로 구현 */}

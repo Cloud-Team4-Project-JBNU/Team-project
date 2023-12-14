@@ -84,7 +84,7 @@ function SignupPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     //필드 공백 여부 확인
     if (!name || !email || !password || !passwordCheck || !birth || !phoneNumber || !gender){
       alert('모든 정보를 다 입력해주세요');
@@ -113,6 +113,7 @@ function SignupPage() {
       alert('핸드폰 번호를 입력해주세요 예시 : 010-1010-1010');
       return;
     }
+
 
     // 서버에 회원가입 요청을 보내는 로직
     const body = { name, email, password, birth, phoneNumber, gender }
@@ -157,7 +158,7 @@ function SignupPage() {
         <Infotitle>비밀번호 확인</Infotitle>
         <Input
           type="password"
-          value={confirmPassword}
+          value={passwordCheck}
           onChange={(e) => setPasswordCheck(e.target.value)}
           placeholder="비밀번호 확인"
         />
