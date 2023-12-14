@@ -41,7 +41,8 @@ function BoardPage(){
     try{
       const response = await axios.get('backend endpointURL');
       console.log(response.data);
-      const updatedBoardList = response.data.map(board => {
+
+      const updatedBoardList = [...response.data].map(board => {
         const [videoId, videoType] = board.videoInfo.split(', ');
 
         return {
@@ -50,7 +51,7 @@ function BoardPage(){
           text: board.text,
           date: board.date,
           videoId: videoId.trim(),
-          videoType: videoId.trim(),
+          videoType: videoType.trim(),
         }
       })
 
@@ -59,6 +60,7 @@ function BoardPage(){
       console.error('Error : ', error);
     }
   }
+
 
   useEffect(()=>{
     loadData();
